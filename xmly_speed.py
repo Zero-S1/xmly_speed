@@ -15,7 +15,7 @@ import os
 # 使用参考 xmly_speed.md
 # cookies填写
 
-cookies1 = ""  # 字符串形式 都可以识别
+cookies1 = "1&_token=34760959&F3C820C0340N4D78111951F230C04CED572BA253C10EBEE08ED2EAC5A858F4184627177138E6110M9AC7AC1EF5EEE78"  # 字符串形式 都可以识别
 cookies2 = {
 }  # 字典形式
 

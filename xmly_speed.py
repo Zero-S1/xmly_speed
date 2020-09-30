@@ -58,7 +58,7 @@ if "XMLY_SPEED_COOKIE" in os.environ:
             continue 
         cookiesList.append(line)
 
-if not cookiesList[0]:
+if not cookiesList[1]:
     print("cookie为空 跳出X")
     exit()
 mins = int(time.time())

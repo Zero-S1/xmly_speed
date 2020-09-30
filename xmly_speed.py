@@ -15,8 +15,8 @@ import os
 # 使用参考 xmly_speed.md
 # cookies填写
 
-cookies1 = "1&_token=236691054&9313184C0F124157A1EB2C05BF9B77DENdV8197BEC2D7488A54F088C76409DB67530CD4E0026588013BB7297AFE888FECFA"  # 字符串形式 都可以识别
-#cookies2 = {
+cookies1 = ""  # 字符串形式 都可以识别
+cookies2 = {
 }  # 字典形式
 
 
@@ -58,7 +58,7 @@ if "XMLY_SPEED_COOKIE" in os.environ:
             continue 
         cookiesList.append(line)
 
-if not cookiesList[1]:
+if not cookiesList[0]:
     print("cookie为空 跳出X")
     exit()
 mins = int(time.time())

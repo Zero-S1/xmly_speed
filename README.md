@@ -1,4 +1,4 @@
 # xmly_speed
-喜马拉雅极速版
+喜马拉雅极速版本
 [参考](xmly_speed.md) 
 

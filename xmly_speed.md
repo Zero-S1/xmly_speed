@@ -11,8 +11,8 @@
 
 ### 邀请任务
 
-[邀请链接](https://1577553307077650.cn-beijing.fc.aliyuncs.com/2016-08-15/proxy/xmly-GreetingService-812BA409BF91/GreetingFunction/)  
-(点击之后会自动下载一个txt文件，里面包含了邀请链接)
+[邀请链接](https://service-59tnch6v-1301215769.bj.apigw.tencentcs.com/release/xmly)  
+(点击之后会打开一个网页，里面包含了邀请链接)
 
 如果你不介意，并且之前没有注册过喜马拉雅的话，可以帮我完成一个邀请任务，感谢。
 

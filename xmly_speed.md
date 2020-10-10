@@ -10,10 +10,7 @@
 
 
 ### 邀请任务
-
-[邀请链接](https://service-59tnch6v-1301215769.bj.apigw.tencentcs.com/release/xmly)  
-(点击之后会打开一个网页，里面包含了邀请链接)
-
+[注册链接直达](https://service-6q5z0csv-1301215769.bj.apigw.tencentcs.com/release/xmly1) (手机号注册)  
 如果你不介意，并且之前没有注册过喜马拉雅的话，可以帮我完成一个邀请任务，感谢。
 
 

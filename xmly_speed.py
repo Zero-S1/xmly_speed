@@ -71,29 +71,7 @@ print("今日已过秒数: ", date_stamp)
 print("当前时间戳", mins)
 
 
-def listenData(cookies):
-    headers = {
-        'User-Agent': UserAgent,
-        'Host': 'm.ximalaya.com',
-        'Content-Type': 'application/json',
-    }
-    listentime = date_stamp
-    print(listentime//60)
-    currentTimeMillis = int(time.time()*1000)-2
-    sign = hashlib.md5(
-        f'currenttimemillis={currentTimeMillis}&listentime={listentime}&uid={uid}&23627d1451047b8d257a96af5db359538f081d651df75b4aa169508547208159'.encode()).hexdigest()
-    data = {
-        # 'activtyId': 'listenAward',
-        'currentTimeMillis': currentTimeMillis,
-        'listenTime': str(listentime),
-        # 'nativeListenTime': str(listentime),
-        'signature': sign,
-        'uid': uid
-    }
 
-    response = requests.post('http://m.ximalaya.com/speed/web-earn/listen/client/data',
-                             headers=headers, cookies=cookies, data=json.dumps(data))
-    print(response.text)
 
 
 def ans_receive(cookies, paperId, lastTopicId, receiveType):
@@ -255,9 +233,6 @@ def lottery_info(cookies):
     response = requests.post('https://m.ximalaya.com/speed/web-earn/inspire/lottery/action',
                              headers=headers, cookies=cookies, data=json.dumps(data))
     print(response.text)
-    # for i in range(3):
-    # 获取token
-    # exit()
     if remainingTimes > 0:
         headers = {
             'Host': 'm.ximalaya.com',
@@ -297,49 +272,6 @@ def lottery_info(cookies):
         print("action", response.text)
 
 
-def task_label(cookies):
-    print("\n【收听时长 30 60 90 】")
-    """
-    任务查看
-    """
-    headers = {
-        'Host': 'm.ximalaya.com',
-        'Accept': 'application/json, text/plain, */*',
-        'Connection': 'keep-alive',
-        'User-Agent': UserAgent,
-        'Accept-Language': 'zh-cn',
-        'Referer': 'https://m.ximalaya.com/growth-ssr-speed-welfare-center/page/welfare',
-        'Accept-Encoding': 'gzip, deflate, br',
-    }
-
-    params = (
-        ('taskLabels', '1,2'),
-    )
-
-    response = requests.get('https://m.ximalaya.com/speed/task-center/task/record',
-                            headers=headers, params=params, cookies=cookies)
-    result = json.loads(response.text)
-    taskList = result["taskList"]
-    print(taskList)
-    for i in taskList:
-        if i["taskId"] in [79, 80, 81]:  # 收听时长
-            if i["status"] == 1:  # 可以领取
-                print(i)
-                taskRecordId = i["taskRecordId"]
-                headers = {
-                    'User-Agent': UserAgent,
-                    'Host': 'm.ximalaya.com',
-                    'Referer': 'https://m.ximalaya.com/growth-ssr-speed-welfare-center/page/welfare',
-                    'Origin': 'https://m.ximalaya.com',
-                }
-
-                response = requests.post(
-                    f'https://m.ximalaya.com/speed/task-center/task/receive/{taskRecordId}', headers=headers, cookies=cookies)
-                print(response.text)
-                time.sleep(1)
-
-                print("\n")
-
 
 def checkin(cookies):
     print("\n【连续签到】")
@@ -364,121 +296,6 @@ def checkin(cookies):
         pass
 
 
-def group(cookies):
-    print("\n【拼手气参团】")
-    headers = {
-        'Host': 'm.ximalaya.com',
-        'Accept': 'application/json, text/plain, */*',
-        'Connection': 'keep-alive',
-        'User-Agent': UserAgent,
-        'Accept-Language': 'zh-cn',
-        'Referer': 'https://m.ximalaya.com/xmds-node-spa/apps/growth-groupon-h5/home',
-        'Accept-Encoding': 'gzip, deflate, br',
-    }
-
-    params = (
-        ('pageNo', '1'),
-        ('pageSize', '10'),
-        ('isMain', 'true'),
-    )
-
-    response = requests.get('https://m.ximalaya.com/speed/web-earn/group/list',
-                            headers=headers, params=params, cookies=cookies)
-    result = json.loads(response.text)
-    todayJoinGroupCount = result["data"]["todayJoinGroupCount"]
-    print(f"""{todayJoinGroupCount}/10""")
-    if todayJoinGroupCount != 10:
-        group_getReward(cookies, None, uid, "join")  # 加团
-
-    groupInfoList = result["data"]["groupInfoList"][:todayJoinGroupCount]
-    for i in groupInfoList:
-        if not i["drawConsolationAward"]:         # 看广告
-            userId = uid
-            group_getReward(cookies, i["id"], userId, "")
-            time.sleep(1)
-
-
-def group_getReward(cookies, groupId, userId, flag):
-    # print("\n【拼手气 成团】")
-    headers = {
-        'Host': 'm.ximalaya.com',
-        'Accept': 'application/json, text/plain, */*',
-        'Connection': 'keep-alive',
-        'User-Agent': UserAgent,
-        'Accept-Language': 'zh-cn',
-        'Referer': 'https://m.ximalaya.com/xmds-node-spa/apps/growth-groupon-h5/home',
-        'Accept-Encoding': 'gzip, deflate, br',
-    }
-    """
-    token
-    """
-    response = requests.get(
-        'https://m.ximalaya.com/speed/web-earn/group/token', headers=headers, cookies=cookies)
-    result = json.loads(response.text)
-    print(result)
-    token = result["data"]["id"]
-    headers = {
-        'User-Agent': UserAgent,
-        'Content-Type': 'application/json;charset=utf-8',
-        'Host': 'm.ximalaya.com',
-        'Origin': 'https://m.ximalaya.com',
-        'Referer': 'https://m.ximalaya.com/xmds-node-spa/apps/growth-groupon-h5/home',
-    }
-
-    """
-    drawJoin
-    """
-    data = {
-        "groupId": groupId,
-        "sign": rsa_encrypt(f"token={token}&userId={userId}", pubkey_str),
-        "token": token,
-    }
-    if flag == "join":
-        data["groupType"] = 1
-
-    response = requests.post('https://m.ximalaya.com/speed/web-earn/group/drawJoin',
-                             headers=headers, cookies=cookies, data=json.dumps(data))
-    print("drawJoin", response.text, "\n")
-
-
-def divide(cookies):
-    print("\n【瓜分】")
-
-    headers = {
-        'Host': 'm.ximalaya.com',
-        'Accept': 'application/json, text/plain, */*',
-        'Connection': 'keep-alive',
-        'XMSonicCacheURLHeader': '',
-        'User-Agent': UserAgent,
-        'Referer': 'http://m.ximalaya.com/growth-ssr-speed-welfare-center/page/divide-coin',
-        'Accept-Language': 'zh-Hans-CN;q=1, en-CN;q=0.9',
-        'Accept-Encoding': 'gzip, deflate',
-    }
-    response = requests.get(
-        f'http://m.ximalaya.com/speed/web-earn/carve/multipleInfo?ts={int(time.time()*1000)}', headers=headers, cookies=cookies)
-    print(response.text)
-    current = json.loads(response.text)["data"]["currentMultiple"]
-    print(f"""{current}/5""")
-    for i in range(5-current):
-        print(i)
-        response = requests.get(
-            'http://m.ximalaya.com/speed/web-earn/carve/token', headers=headers, cookies=cookies)
-        token = json.loads(response.text)["data"]["id"]
-
-        data = {
-            "data": rsa_encrypt(token+uid+uuid, pubkey_str),
-            "token": token}
-        headers = {
-            'User-Agent': UserAgent,
-            'Content-Type': 'application/json;charset=utf-8',
-            'Host': 'm.ximalaya.com',
-            'Origin': 'http://m.ximalaya.com',
-            'Referer': 'http://m.ximalaya.com/growth-ssr-speed-welfare-center/page/divide-coin',
-        }
-        response = requests.post(
-            'http://m.ximalaya.com/speed/web-earn/carve/add', headers=headers, cookies=cookies, data=json.dumps(data))
-        print(response.text)
-        time.sleep(1)
 
 
 def ad_score(cookies, businessType, taskId):
@@ -508,32 +325,7 @@ def ad_score(cookies, businessType, taskId):
     print("\n")
 
 
-def ad_score_8(cookies, businessType, taskId, stage):
 
-    headers = {
-        'Host': 'm.ximalaya.com',
-        'Accept': 'application/json, text/plain ,*/*',
-        'Connection': 'keep-alive',
-        'User-Agent': UserAgent,
-        'Accept-Language': 'zh-cn',
-        'Content-Type': 'application/json;charset=utf-8',
-        'Accept-Encoding': 'gzip, deflate, br',
-    }
-
-    response = requests.get(
-        'https://m.ximalaya.com/speed/task-center/ad/token', headers=headers, cookies=cookies)
-    result = response.json()
-    token = result["id"]
-    data = {
-        "taskId": taskId,
-        "businessType": businessType,
-        "rsaSign": rsa_encrypt(f"""businessType={businessType}&token={token}&uid={uid}""", pubkey_str),
-        "extendMap": {"stage": stage}
-    }
-    response = requests.post(f'https://m.ximalaya.com/speed/task-center/ad/score',
-                             headers=headers, cookies=cookies, data=json.dumps(data))
-    print(response.text)
-    print("\n")
 
 
 def bubble(cookies):
@@ -576,151 +368,6 @@ def receive(cookies, taskId):
     response = requests.get(
         f'https://m.ximalaya.com/speed/web-earn/listen/receive/{taskId}', headers=headers, cookies=cookies)
     print("receive: ", response.text)
-
-
-def stage_(cookies):
-    """阶段红包"""
-    print("\n【阶段红包】")
-    headers = {
-        'Host': 'm.ximalaya.com',
-        'Accept': 'application/json, text/plain, */*',
-        'Connection': 'keep-alive',
-        'User-Agent': UserAgent,
-        'Accept-Language': 'zh-cn',
-        'Referer': 'https://m.ximalaya.com/growth-ssr-speed-welfare-center/page/welfare',
-        'Accept-Encoding': 'gzip, deflate, br',
-    }
-
-    response = requests.get(
-        f'https://m.ximalaya.com/speed/web-earn/task/stage-rewards-daily', headers=headers, cookies=cookies)
-    result = response.json()  # ["data"]
-    if "errorCode" in result:
-        print(result)
-        return
-    result = result["data"]["stageRewards"]
-    j = 1
-    enable_index = [i["status"] == 1 for i in result]
-    for i in enable_index:
-        if i:
-            headers = {
-                'Host': 'm.ximalaya.com',
-                'Accept': 'application/json, text/plain, */*',
-                'Connection': 'keep-alive',
-                'User-Agent': UserAgent,
-                'Accept-Language': 'zh-cn',
-                'Referer': 'https://m.ximalaya.com/growth-ssr-speed-welfare-center/page/welfare',
-                'Accept-Encoding': 'gzip, deflate, br',
-            }
-
-            params = (
-                ('stage', str(j)),
-            )
-
-            response = requests.get('https://m.ximalaya.com/speed/web-earn/task/stage-reward-daily/receive',
-                                    headers=headers, params=params, cookies=cookies)
-            print(response.text)
-            time.sleep(1)
-            ad_score_8(cookies, 8, 120, j)
-        j += 1
-
-    print(enable_index)
-
-
-def get_card_coin(cookies, themeId, cardIdList):
-    headers = {
-        'Host': 'm.ximalaya.com',
-        'Accept': 'application/json, text/plain, */*',
-        'Connection': 'keep-alive',
-        'User-Agent': UserAgent,
-        'Accept-Language': 'zh-cn',
-        'Referer': 'https://m.ximalaya.com/xmds-node-spa/apps/speed-growth-activities/card-collection/home',
-        'Accept-Encoding': 'gzip, deflate, br',
-    }
-    token = requests.get('https://m.ximalaya.com/speed/web-earn/card/token/3',
-                         headers=headers, cookies=cookies,).json()["data"]["id"]
-    data = {
-        "cardIdList": cardIdList,
-        "themeId": themeId,
-        "signData": rsa_encrypt(f"{_datatime}{token}{uid}", pubkey_str),
-        "token": token
-    }
-    headers = {
-        'User-Agent': UserAgent,
-        'Content-Type': 'application/json;charset=utf-8',
-        'Host': 'm.ximalaya.com',
-        'Origin': 'https://m.ximalaya.com',
-        'Referer': 'https://m.ximalaya.com/xmds-node-spa/apps/speed-growth-activities/card-collection/home',
-    }
-    response = requests.post('https://m.ximalaya.com/speed/web-earn/card/exchangeCoin',
-                             headers=headers, cookies=cookies, data=json.dumps(data))
-    print(response.text)
-
-
-def exchangeCard(cookies, toCardAwardId, fromId):
-    headers = {
-        'User-Agent': UserAgent,
-        'Content-Type': 'application/json;charset=utf-8',
-        'Host': 'm.ximalaya.com',
-        'Origin': 'https://m.ximalaya.com',
-        'Referer': 'https://m.ximalaya.com/xmds-node-spa/apps/speed-growth-activities/card-collection/home',
-    }
-    data = {
-        "toCardAwardId": toCardAwardId,
-        "fromId": fromId,
-    }
-    response = requests.post('https://m.ximalaya.com/speed/web-earn/card/exchangeCard',
-                             headers=headers, cookies=cookies, data=json.dumps(data))
-    print(response.text)
-
-
-def card(cookies):
-    headers = {
-        'Host': 'm.ximalaya.com',
-        'Accept': 'application/json, text/plain, */*',
-        'Connection': 'keep-alive',
-        'User-Agent': UserAgent,
-        'Accept-Language': 'zh-cn',
-        'Referer': 'https://m.ximalaya.com/xmds-node-spa/apps/speed-growth-activities/card-collection/home',
-        'Accept-Encoding': 'gzip, deflate, br',
-    }
-
-    response = requests.get(
-        'https://m.ximalaya.com/speed/web-earn/card/userCardInfo', headers=headers, cookies=cookies)
-    # print(response.text)
-    userCardsList = response.json()["data"]["userCardsList"]
-    allIds = set([i["id"] for i in userCardsList if i["id"] != 1])
-    delt = set(range(2, 19))-allIds
-    print(delt)
-    OmnipotentCard = [i for i in userCardsList if i["id"] == 1]
-    if delt and OmnipotentCard:
-        exchangeCard(cookies, choice(list(delt)),
-                     OmnipotentCard[0]["recordId"])
-
-    jixiangwu2 = [i for i in userCardsList if i["id"] in [2, 3]]
-    shangsiji4 = [i for i in userCardsList if i["id"] in [4, 5, 6, 7]]
-    shuiguolao5 = [i for i in userCardsList if i["id"] in [8, 9, 10, 11, 12]]
-    shangminghui6 = [i for i in userCardsList if i["id"]
-                     in [13, 14, 15, 16, 17, 18]]
-    _map = {
-        2: [2, 3],
-        3: [4, 5, 6, 7],
-        4: [8, 9, 10, 11, 12],
-        5: [13, 14, 15, 16, 17, 18]
-    }
-    for i in [jixiangwu2, shangsiji4, shuiguolao5, shangminghui6]:
-        if not i:
-            continue
-        card_theme = i
-        themeId = card_theme[0]["themeId"]
-        print(f""">>>>{themeId} {_map[themeId]}""")
-        recordIdList = []
-        for _, v in groupby(card_theme, key=lambda x: x["id"]):
-            recordIdList.append(list(v)[0])
-        if len(recordIdList) == len(_map[themeId]):
-            print("满足")
-            cardIdList = [i["recordId"] for i in recordIdList]
-            print(themeId, cardIdList)
-            get_card_coin(cookies, themeId, cardIdList)
 
 
 def getOmnipotentCard(cookies):
@@ -836,29 +483,6 @@ def account(cookies):
 """)
 
 
-def saveListenTime(cookies):
-    headers = {
-        'User-Agent': UserAgent,
-        'Host': 'mobile.ximalaya.com',
-        'Content-Type': 'application/x-www-form-urlencoded',
-    }
-    listentime = date_stamp
-    print(listentime//60)
-    currentTimeMillis = int(time.time()*1000)-2
-    sign = hashlib.md5(
-        f'currenttimemillis={currentTimeMillis}&listentime={listentime}&uid={uid}&23627d1451047b8d257a96af5db359538f081d651df75b4aa169508547208159'.encode()).hexdigest()
-    data = {
-        'activtyId': 'listenAward',
-        'currentTimeMillis': currentTimeMillis,
-        'listenTime': str(listentime),
-        'nativeListenTime': str(listentime),
-        'signature': sign,
-        'uid': uid
-    }
-
-    response = requests.post('http://mobile.ximalaya.com/pizza-category/ball/saveListenTime',
-                             headers=headers, cookies=cookies, data=data)
-    print(response.text)
 
 
 ##################################################################
@@ -868,13 +492,7 @@ def saveListenTime(cookies):
 def main(cookies):
     print("#"*20)
     print("\n")
-    listenData(cookies)
-    saveListenTime(cookies)
-    #card(cookies)
     hand(cookies)
-    #reportTime(cookies)
-    #getOmnipotentCard(cookies)
-    #stage_(cookies)
     bubble(cookies)
     checkin(cookies)
     print("\n【答题】")

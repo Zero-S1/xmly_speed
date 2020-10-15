@@ -15,16 +15,10 @@ import os
 # 使用参考 xmly_speed.md
 # cookies填写
 
-cookies1 = ""  # 字符串形式 都可以识别
-cookies2 = {
-}  # 字典形式
-
-
+cookies1 = '' # 字符串形式 都可以识别
 
 
 cookiesList = [cookies1, ]  # 多账号准备
-
-
 
 
 UserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 iting/1.0.12 kdtunion_iting/1.0 iting(main)/1.0.12/ios_1"
@@ -44,8 +38,6 @@ def str2dict(str_cookie):
     return dict_cookie
 
 
-
-
 if "XMLY_SPEED_COOKIE" in os.environ:
     """
     判断是否运行自GitHub action,"XMLY_SPEED_COOKIE" 该参数与 repo里的Secrets的名称保持一致
@@ -55,7 +47,7 @@ if "XMLY_SPEED_COOKIE" in os.environ:
     cookiesList = []  # 重置cookiesList
     for line in xmly_speed_cookie.split('\n'):
         if not line:
-            continue 
+            continue
         cookiesList.append(line)
 
 if not cookiesList[0]:
@@ -63,7 +55,6 @@ if not cookiesList[0]:
     exit()
 mins = int(time.time())
 date_stamp = (mins-57600) % 86400
-#print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
 print(datetime.now(tz=tz.gettz('Asia/Shanghai')).strftime("%Y-%m-%d %H:%M:%S", ))
 _datatime = datetime.now(tz=tz.gettz('Asia/Shanghai')).strftime("%Y%m%d", )
 print(_datatime)
@@ -71,11 +62,7 @@ print("今日已过秒数: ", date_stamp)
 print("当前时间戳", mins)
 
 
-
-
-
 def ans_receive(cookies, paperId, lastTopicId, receiveType):
-
     headers = {
         'User-Agent': UserAgent,
         'Content-Type': 'application/json;charset=utf-8',
@@ -85,7 +72,6 @@ def ans_receive(cookies, paperId, lastTopicId, receiveType):
     }
     _checkData = f"""lastTopicId={lastTopicId}&numOfAnswers=3&receiveType={receiveType}"""
     checkData = rsa_encrypt(str(_checkData), pubkey_str)
-
     data = {
         "paperId": paperId,
         "checkData": checkData,
@@ -99,9 +85,6 @@ def ans_receive(cookies, paperId, lastTopicId, receiveType):
 
 
 def ans_restore(cookies):
-    """
-    看视频回复体力，type=2
-    """
     headers = {
         'User-Agent': UserAgent,
         'Content-Type': 'application/json;charset=utf-8',
@@ -121,7 +104,6 @@ def ans_restore(cookies):
 
 
 def ans_getTimes(cookies):
-
     headers = {
         'Host': 'm.ximalaya.com',
         'Accept': 'application/json, text/plain, */*',
@@ -135,10 +117,8 @@ def ans_getTimes(cookies):
     response = requests.get(
         'https://m.ximalaya.com/speed/web-earn/topic/user', headers=headers, cookies=cookies)
     result = json.loads(response.text)
-    stamina = result["data"]["stamina"]  # 答题次数
-    remainingTimes = result["data"]["remainingTimes"]  # 可回复次数
-    print(f"answer_stamina答题次数: {stamina}")
-    print(f"answer_remainingTimes可回复次数: {remainingTimes}\n")
+    stamina = result["data"]["stamina"]  
+    remainingTimes = result["data"]["remainingTimes"] 
     return {"stamina": stamina,
             "remainingTimes": remainingTimes}
 
@@ -207,23 +187,13 @@ def lottery_info(cookies):
         'Referer': 'https://m.ximalaya.com/xmds-node-spa/apps/speed-ad-sweepstake-h5/home',
         'Accept-Encoding': 'gzip, deflate, br',
     }
-    # 查询信息
     response = requests.get(
         'https://m.ximalaya.com/speed/web-earn/inspire/lottery/info', headers=headers, cookies=cookies)
     result = json.loads(response.text)
-    print(result)
-
     remainingTimes = result["data"]["remainingTimes"]
-    print(f'lottery_remainingTimes转盘剩余次数: {remainingTimes}\n')
+    print(f'转盘剩余次数: {remainingTimes}\n')
     if result["data"]["chanceId"] != 0 and result["data"]["remainingTimes"] == 1:
         print("免费抽奖次数")
-        return
-        data = {
-            "sign": rsa_encrypt(str(result["data"]["chanceId"]), pubkey_str),
-        }
-        response = requests.post('https://m.ximalaya.com/speed/web-earn/inspire/lottery/action',
-                                 headers=headers, cookies=cookies, data=json.dumps(data))
-        print(response.text)
         return
     if result["data"]["remainingTimes"] in [0, 1]:
         return
@@ -271,7 +241,69 @@ def lottery_info(cookies):
                                  headers=headers, cookies=cookies, data=json.dumps(data))
         print("action", response.text)
 
+def index_baoxiang_award(cookies):
+    print("\n  【首页、宝箱奖励及翻倍】")
+    headers = {
+        'User-Agent': UserAgent,
+        'Host': 'mobile.ximalaya.com',
+    }
+    uid = cookies["1&_token"].split("&")[0]
+    currentTimeMillis = int(time.time()*1000)-2
+    response = requests.post('https://mobile.ximalaya.com/pizza-category/activity/getAward?activtyId=baoxiangAward',
+                             headers=headers, cookies=cookies)
+    
+    result = response.json()
+    print("宝箱奖励: ", result)
+    if "ret" in result and result["ret"] == 0:
+        awardReceiveId = result["awardReceiveId"]
+        headers = {
+            'Host': 'mobile.ximalaya.com',
+            'Accept': '*/*',
+            'User-Agent': UserAgent,
+            'Accept-Language': 'zh-Hans-CN;q=1, en-CN;q=0.9',
+            'Accept-Encoding': 'gzip, deflate',
+            'Connection': 'keep-alive',
+        }
 
+        params = (
+            ('activtyId', 'baoxiangAward'),
+            ('awardReceiveId', awardReceiveId),
+        )
+
+        response = requests.get('http://mobile.ximalaya.com/pizza-category/activity/awardMultiple',
+                                headers=headers, params=params, cookies=cookies)
+        print("翻倍 ",response.text)
+    ###################################
+    params = (
+        ('activtyId', 'indexSegAward'),
+        ('ballKey', str(uid)),
+        ('currentTimeMillis', str(currentTimeMillis)),
+        ('sawVideoSignature', f'{currentTimeMillis}+{uid}'),
+        ('version', '2'),
+    )
+    response = requests.get('https://mobile.ximalaya.com/pizza-category/activity/getAward',
+                            headers=headers, cookies=cookies, params=params)
+    result = response.json()
+    print("首页奖励: ",result)
+    if "ret" in result and result["ret"] == 0:
+        awardReceiveId = result["awardReceiveId"]
+        headers = {
+            'Host': 'mobile.ximalaya.com',
+            'Accept': '*/*',
+            'User-Agent': UserAgent,
+            'Accept-Language': 'zh-Hans-CN;q=1, en-CN;q=0.9',
+            'Accept-Encoding': 'gzip, deflate',
+            'Connection': 'keep-alive',
+        }
+
+        params = (
+            ('activtyId', 'indexSegAward'),
+            ('awardReceiveId', awardReceiveId),
+        )
+
+        response = requests.get('http://mobile.ximalaya.com/pizza-category/activity/awardMultiple',
+                                headers=headers, params=params, cookies=cookies)
+        print("翻倍: ",response.text)
 
 def checkin(cookies):
     print("\n【连续签到】")
@@ -290,12 +322,12 @@ def checkin(cookies):
     response = requests.get('https://m.ximalaya.com/speed/task-center/check-in/record',
                             headers=headers, params=params, cookies=cookies)
     result = json.loads(response.text)
+    print(result)
+    print(f"""连续签到{result["continuousDays"]}/{result["historyDays"]}天""")
     print(result["isTickedToday"])
     if result["isTickedToday"] == False:
         print("!!!未签到")
         pass
-
-
 
 
 def ad_score(cookies, businessType, taskId):
@@ -325,9 +357,6 @@ def ad_score(cookies, businessType, taskId):
     print("\n")
 
 
-
-
-
 def bubble(cookies):
     print("\n【bubble】")
     headers = {
@@ -344,7 +373,9 @@ def bubble(cookies):
     response = requests.post('https://m.ximalaya.com/speed/web-earn/listen/bubbles',
                              headers=headers, cookies=cookies, data=json.dumps(data))
     result = response.json()
-    print(result)
+    if not result["data"]["effectiveBubbles"]:
+        print("暂无有效气泡")
+        return
     for i in result["data"]["effectiveBubbles"]:
         print(i["id"])
         receive(cookies, i["id"])
@@ -370,8 +401,10 @@ def receive(cookies, taskId):
     print("receive: ", response.text)
 
 
+
+
 def getOmnipotentCard(cookies):
-    print("\n 【万能卡】")
+    print("\n 【领取万能卡】")
     headers = {
         'User-Agent': UserAgent,
         'Content-Type': 'application/json;charset=utf-8',
@@ -379,13 +412,12 @@ def getOmnipotentCard(cookies):
         'Origin': 'https://m.ximalaya.com',
         'Referer': 'https://m.ximalaya.com/xmds-node-spa/apps/speed-growth-activities/card-collection/home',
     }
-    result = requests.get('https://m.ximalaya.com/speed/web-earn/card/omnipotentCardInfo',
-                         headers=headers, cookies=cookies,).json()
-    print(result)
-    count=result["data"]["count"]
+    count = requests.get('https://m.ximalaya.com/speed/web-earn/card/omnipotentCardInfo',
+                         headers=headers, cookies=cookies,).json()["data"]["count"]
     if count == 5:
         print("今日已满")
         return
+    
     token = requests.get('https://m.ximalaya.com/speed/web-earn/card/token/1',
                          headers=headers, cookies=cookies,).json()["data"]["id"]
     data = {
@@ -399,8 +431,8 @@ def getOmnipotentCard(cookies):
     print(response.text)
 
 
-def reportTime(cookies):
-    print("\nreportTime\n")
+def cardReportTime(cookies):
+    print("\n【收听获得抽卡机会】")
     headers = {
         'User-Agent': UserAgent,
         'Content-Type': 'application/json;charset=utf-8',
@@ -412,54 +444,13 @@ def reportTime(cookies):
     data = {"listenTime": listenTime,
             "signData": rsa_encrypt(f"{_datatime}{listenTime}{uid}", pubkey_str), }
     response = requests.post('https://m.ximalaya.com/speed/web-earn/card/reportTime',
-                             headers=headers, cookies=cookies, data=json.dumps(data))
-    print(response.text)
-
-
-def hand(cookies):
-    print("\n 【猜拳】")
-    headers = {
-        'User-Agent': UserAgent,
-        'Host': 'm.ximalaya.com',
-        'Referer': 'https://m.ximalaya.com/xmds-node-spa/apps/speed-growth-activities/finger-game/home',
-    }
-    response = requests.get(
-        'https://m.ximalaya.com/speed/web-earn/mora/remainingTimes', headers=headers, cookies=cookies)
-    lastTimes = response.json()["data"]
-    print(lastTimes)
-    for _ in range(lastTimes):
-        headers = {
-            'User-Agent': UserAgent,
-            'Content-Type': 'application/json;charset=utf-8',
-            'Host': 'm.ximalaya.com',
-            'Origin': 'https://m.ximalaya.com',
-            'Referer': 'https://m.ximalaya.com/xmds-node-spa/apps/speed-growth-activities/finger-game/home',
-        }
-
-        data = '{"betAmount":200,"gesture":2}'
-
-        response = requests.post('https://m.ximalaya.com/speed/web-earn/mora/action',
-                                 headers=headers, cookies=cookies, data=data)
-        result = response.json()
-        print(result)
-        result=result["data"]
-        if not result:
-            return
-        if result["winFlag"] == 1:
-            moraRecordId = result["moraRecordId"]
-            data = {"betAmount": 200,
-                    "moraRecordId": moraRecordId,
-                    "signData": rsa_encrypt(f"{200}{moraRecordId}{uid}", pubkey_str),
-                    }
-
-            response = requests.post(
-                'https://m.ximalaya.com/speed/web-earn/mora/doubleAward', headers=headers, cookies=cookies, data=json.dumps(data))
-            print(response.text)
-            time.sleep(2)
+                             headers=headers, cookies=cookies, data=json.dumps(data)).json()
+    if response["data"]["upperLimit"]:
+        print("今日已达上限")
 
 
 def account(cookies):
-    print("\n【打印当前信息】")
+    print("\n【 打印账号信息】")
     headers = {
         'Host': 'm.ximalaya.com',
         'Content-Type': 'application/json;charset=utf-8',
@@ -474,7 +465,6 @@ def account(cookies):
     response = requests.get(
         'https://m.ximalaya.com/speed/web-earn/account/coin', headers=headers, cookies=cookies)
     result = response.json()
-    print(result)
     print(f"""
 当前剩余:{result["total"]/10000}
 今日获得:{result["todayTotal"]/10000}
@@ -483,23 +473,13 @@ def account(cookies):
 """)
 
 
-
-
-##################################################################
-
-
-
-def main(cookies):
-    print("#"*20)
-    print("\n")
-    hand(cookies)
-    bubble(cookies)
-    checkin(cookies)
+def answer(cookies):
     print("\n【答题】")
     ans_times = ans_getTimes(cookies)
-
-    for i in range(ans_times["stamina"]):
-        paperId, dateStr, lastTopicId = ans_start(cookies)
+    if ans_times["stamina"]==0:
+        print("时间未到")
+    for _ in range(ans_times["stamina"]):
+        paperId, _, lastTopicId = ans_start(cookies)
         ans_receive(cookies, paperId, lastTopicId, 1)
         time.sleep(1)
         ans_receive(cookies, paperId, lastTopicId, 2)
@@ -508,16 +488,15 @@ def main(cookies):
     if ans_times["remainingTimes"] > 0:
         print("[看视频回复体力]")
         ans_restore(cookies)
-        for i in range(5):
-            paperId, dateStr, lastTopicId = ans_start(cookies)
+        for _ in range(5):
+            paperId, _, lastTopicId = ans_start(cookies)
             ans_receive(cookies, paperId, lastTopicId, 1)
             time.sleep(1)
             ans_receive(cookies, paperId, lastTopicId, 2)
             time.sleep(1)
 
-    lottery_info(cookies)
 
-    print("\n")
+##################################################################
 
 
 for i in cookiesList:
@@ -525,5 +504,11 @@ for i in cookiesList:
     cookies = str2dict(i)
     uid = cookies["1&_token"].split("&")[0]
     uuid = cookies["XUM"]
-    main(cookies)
+    bubble(cookies)  # 收金币气泡
+    checkin(cookies) #自动签到
+    lottery_info(cookies) #大转盘4次
+    answer(cookies)      # 答题赚金币
+    cardReportTime(cookies)
+    getOmnipotentCard(cookies) # 领取万能卡
+    index_baoxiang_award(cookies) #首页、宝箱奖励及翻倍
     account(cookies)

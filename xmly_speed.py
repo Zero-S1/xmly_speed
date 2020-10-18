@@ -42,6 +42,7 @@ def str2dict(str_cookie):
             continue
         dict_cookie[j[0].strip()] = j[1].strip()
     return dict_cookie
+    response = requests.post('https://m.ximalaya.com/speed/web-earn/topic/receive',
 
 
 

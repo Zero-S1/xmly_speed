@@ -13,14 +13,17 @@ import os
 
 # 喜马拉雅极速版
 # 使用参考 xmly_speed.md
-# cookies填写
-
-cookies1 = '' # 本地运行账号填写
-cookies2 = ''
 
 
+###################################################
+# 对应方案2: 下载到本地,需要此处填写
+cookies1 = ""  # 本地运行账号填写
+cookies2 = ""
 cookiesList = [cookies1, ]  # 多账号准备
+XMLY_ACCUMULATE_TIME = 0    # 希望刷时长的,此处置1
 
+###################################################
+# 对应方案1:  GitHub action自动运行,此处无需填写; 
 if "XMLY_SPEED_COOKIE" in os.environ:
     """
     判断是否运行自GitHub action,"XMLY_SPEED_COOKIE" 该参数与 repo里的Secrets的名称保持一致
@@ -32,8 +35,12 @@ if "XMLY_SPEED_COOKIE" in os.environ:
         if not line:
             continue
         cookiesList.append(line)
+    # GitHub action运行需要填写对应的secrets
+    if "XMLY_ACCUMULATE_TIME" in os.environ and os.environ["XMLY_ACCUMULATE_TIME"] == 'zero_s1':
+        XMLY_ACCUMULATE_TIME = 1
+        print("action 自动刷时长打开")
 
-        
+###################################################
 UserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 iting/1.0.12 kdtunion_iting/1.0 iting(main)/1.0.12/ios_1"
 # 非iOS设备的需要的自行修改,自己抓包 与cookie形式类似
 
@@ -49,6 +56,7 @@ def str2dict(str_cookie):
             continue
         dict_cookie[j[0].strip()] = j[1].strip()
     return dict_cookie
+
 
 if not cookiesList[0]:
     print("cookie为空 跳出X")
@@ -495,6 +503,56 @@ def answer(cookies):
             time.sleep(1)
 
 
+def saveListenTime(cookies):
+    print("\n【刷时长1】")
+    headers = {
+        'User-Agent': UserAgent,
+        'Host': 'mobile.ximalaya.com',
+        'Content-Type': 'application/x-www-form-urlencoded',
+    }
+    listentime = date_stamp
+    print(f"上传本地收听时长1: {listentime//60}分钟")
+    currentTimeMillis = int(time.time()*1000)-2
+    sign = hashlib.md5(
+        f'currenttimemillis={currentTimeMillis}&listentime={listentime}&uid={uid}&23627d1451047b8d257a96af5db359538f081d651df75b4aa169508547208159'.encode()).hexdigest()
+    data = {
+        'activtyId': 'listenAward',
+        'currentTimeMillis': currentTimeMillis,
+        'listenTime': str(listentime),
+        'nativeListenTime': str(listentime),
+        'signature': sign,
+        'uid': uid
+    }
+
+    response = requests.post('http://mobile.ximalaya.com/pizza-category/ball/saveListenTime',
+                             headers=headers, cookies=cookies, data=data)
+    print(response.text)
+
+
+def listenData(cookies):
+    print("\n【刷时长2】")
+    headers = {
+        'User-Agent': 'ting_v1.1.9_c5(CFNetwork, iOS 14.0.1, iPhone9,2)',
+        'Host': 'm.ximalaya.com',
+        'Content-Type': 'application/json',
+    }
+    listentime = date_stamp
+    print(f"上传本地收听时长2: {listentime//60}分钟")
+    currentTimeMillis = int(time.time()*1000)-2
+    sign = hashlib.md5(
+        f'currenttimemillis={currentTimeMillis}&listentime={listentime}&uid={uid}&23627d1451047b8d257a96af5db359538f081d651df75b4aa169508547208159'.encode()).hexdigest()
+    data = {
+        'currentTimeMillis': currentTimeMillis,
+        'listenTime': str(listentime),
+        'signature': sign,
+        'uid': uid
+    }
+
+    response = requests.post('http://m.ximalaya.com/speed/web-earn/listen/client/data',
+                             headers=headers, cookies=cookies, data=json.dumps(data))
+    print(response.text)
+
+
 def card_exchangeCoin(cookies, themeId, cardIdList):
     headers = {
         'Host': 'm.ximalaya.com',
@@ -649,6 +707,9 @@ for i in cookiesList:
     cookies = str2dict(i)
     uid = cookies["1&_token"].split("&")[0]
     uuid = cookies["XUM"]
+    if XMLY_ACCUMULATE_TIME == 1:
+        saveListenTime(cookies)
+        listenData(cookies)
     bubble(cookies)  # 收金币气泡
     checkin(cookies)  # 自动签到
     lottery_info(cookies)  # 大转盘4次

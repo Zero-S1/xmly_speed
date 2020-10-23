@@ -69,7 +69,74 @@ print(_datatime)
 print("今日已过秒数: ", date_stamp)
 print("当前时间戳", mins)
 
+def read(cookies, uid):
+    print("\n【阅读】")
+    headers = {
+        'Host': '51gzdhh.xyz',
+        'accept': 'application/json, text/plain, */*',
+        'origin': 'http://xiaokuohao.work',
+        'user-agent': 'Mozilla/5.0 (Linux; Android 6.0.1; MI 6 Plus Build/V417IR; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/52.0.2743.100 Mobile Safari/537.36 iting(main)/1.8.18/android_1 kdtUnion_iting/1.8.18',
+        'referer': 'http://xiaokuohao.work/static/web/dxmly/index.html',
+        'accept-encoding': 'gzip, deflate',
+        'accept-language': 'zh-CN,en-US;q=0.8',
+        'x-requested-with': 'com.ximalaya.ting.lite',
+    }
+    params = (
+        ('hid', '233'),
+    )
+    response = requests.get(
+        'https://51gzdhh.xyz/api/new/newConfig', headers=headers, params=params)
+    result = response.json()
+    pid = str(result["pid"])
+    headers = {
+        'Host': '51gzdhh.xyz',
+        'content-length': '37',
+        'accept': 'application/json, text/plain, */*',
+        'origin': 'http://xiaokuohao.work',
+        'user-agent': 'Mozilla/5.0 (Linux; Android 6.0.1; MI 6 Plus Build/V417IR; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/52.0.2743.100 Mobile Safari/537.36 iting(main)/1.8.18/android_1 kdtUnion_iting/1.8.18',
+        'content-type': 'application/x-www-form-urlencoded',
+        'referer': 'http://xiaokuohao.work/static/web/dxmly/index.html',
+        'accept-encoding': 'gzip, deflate',
+        'accept-language': 'zh-CN,en-US;q=0.8',
+        'x-requested-with': 'com.ximalaya.ting.lite',
+    }
+    data = {"pid": str(pid), "mtuserid": uid}
 
+    response = requests.post(
+        'https://51gzdhh.xyz/api/new/hui/complete', headers=headers, data=json.dumps(data))
+    result = response.json()
+    # print(result)
+    if result["status"]==-2:
+        print("无法阅读,尝试从安卓端手动开启")
+        return 
+    print(result["completeList"])
+    if result["isComplete"]:
+        print("今日完成阅读")
+        return
+    headers = {
+        'Host': '51gzdhh.xyz',
+        'accept': 'application/json, text/plain, */*',
+        'origin': 'http://xiaokuohao.work',
+        'user-agent': 'Mozilla/5.0 (Linux; Android 6.0.1; MI 6 Plus Build/V417IR; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/52.0.2743.100 Mobile Safari/537.36 iting(main)/1.8.18/android_1 kdtUnion_iting/1.8.18',
+        'referer': 'http://xiaokuohao.work/static/web/dxmly/index.html',
+        'accept-encoding': 'gzip, deflate',
+        'accept-language': 'zh-CN,en-US;q=0.8',
+        'x-requested-with': 'com.ximalaya.ting.lite',
+    }
+    taskIds = set(['242', '239', '241', '240', '238', '236',
+                   '237', '235', '234'])-set(result["completeList"])
+    params = (
+        ('userid', str(uid)),
+        ('pid', pid),
+        ('taskid', taskIds.pop()),
+        ('imei', ''),
+    )
+
+    response = requests.get(
+        'https://51gzdhh.xyz/new/userCompleteNew', headers=headers, params=params)
+    result = response.json()
+    print(result)
+    
 def ans_receive(cookies, paperId, lastTopicId, receiveType):
     headers = {
         'User-Agent': UserAgent,
@@ -710,6 +777,7 @@ for i in cookiesList:
     if XMLY_ACCUMULATE_TIME == 1:
         saveListenTime(cookies)
         listenData(cookies)
+    read(cookies,uid)  # 阅读
     bubble(cookies)  # 收金币气泡
     checkin(cookies)  # 自动签到
     lottery_info(cookies)  # 大转盘4次

@@ -34,7 +34,7 @@
 
 1、GitHub action自动运行，账号信息读取自`Repo-Setting-Secrets`  
 
-- cookie 信息抓包自手机app，域名为 `m.ximalaya.com`的可以
+- cookie 信息抓包自**手机app(喜马拉雅极速版)**，域名为 `m.ximalaya.com`的可以
 - fork 本项目
 - Secrets 新增 `XMLY_SPEED_COOKIE`，填入cookie信息 ，多账号换行
 - star一下，立即执行，观察运行情况

@@ -43,7 +43,17 @@
 
 2、下载到本地运行   
    需要两个第三方库 `rsa`和 `requests`  
-   
+ 
+### 如何抓包cookie
+- [手机抓包工具汇总](https://blog.zengrong.net/post/capture-package-on-phone/)
+- [Stream -- iPhone上抓包神器](https://blog.csdn.net/heqiang2015/article/details/84023327)
+
+<p align="center">
+  <img src="抓包.png" alt="抓包" width='30%' height='30%'/>
+  
+</p>  
+
+框中信息，不包含开头的`Cookie: `
 
 ### 查看
 

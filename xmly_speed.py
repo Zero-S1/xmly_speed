@@ -780,7 +780,7 @@ for i in cookiesList:
     read(cookies,uid)  # 阅读
     bubble(cookies)  # 收金币气泡
     checkin(cookies)  # 自动签到
-    lottery_info(cookies)  # 大转盘4次
+    # lottery_info(cookies)  # 大转盘4次
     answer(cookies)      # 答题赚金币
     cardReportTime(cookies)  # 卡牌
     getOmnipotentCard(cookies)  # 领取万能卡

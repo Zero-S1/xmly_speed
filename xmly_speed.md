@@ -1,6 +1,6 @@
 # 喜马拉雅极速版  
 
- 
+
 <p align="center">
   <img src="xmly_speed.jpg" alt="喜马拉雅极速版收益" width='30%' height='30%'/>
 
@@ -11,9 +11,9 @@
 请仔细阅读本说明     
 暂时无法每天签到    
  [xmly_speed](xmly_speed.py)    
- 
+
 ### 支持功能
-1.幸运转盘4次  
+~~1.幸运转盘4次~~  收益过低,且容易报错,故去除
 2.答题赚钱(完整)  
 3.听书集卡获得抽卡机会、领取万能卡，但不会自动兑换  
 4.首页、宝箱奖励及翻倍(完整)  
@@ -43,14 +43,14 @@
 
 2、下载到本地运行   
    需要两个第三方库 `rsa`和 `requests`  
- 
+
 ### 如何抓包cookie
 - [手机抓包工具汇总](https://blog.zengrong.net/post/capture-package-on-phone/)
 - [Stream -- iPhone上抓包神器](https://blog.csdn.net/heqiang2015/article/details/84023327)
 
 <p align="center">
   <img src="抓包.png" alt="抓包" width='30%' height='30%'/>
-  
+
 </p>  
 
 框中信息，不包含开头的`Cookie: `

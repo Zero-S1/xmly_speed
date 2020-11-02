@@ -17,7 +17,8 @@ import os
 
 ###################################################
 # 对应方案2: 下载到本地,需要此处填写
-cookies1 = ""  # 本地运行账号填写
+cookies1 = ""
+# 本地运行账号填写
 cookies2 = ""
 cookiesList = [cookies1, ]  # 多账号准备
 XMLY_ACCUMULATE_TIME = 0    # 希望刷时长的,此处置1
@@ -298,73 +299,31 @@ def lottery_info(cookies):
     except:
         print("网络请求异常,为避免GitHub action报错,直接退出")
         exit()
-    result = json.loads(response.text)
+    result = response.json()
     remainingTimes = result["data"]["remainingTimes"]
-    print(f'转盘剩余次数: {remainingTimes}\n')
-    if result["data"]["chanceId"] != 0 and result["data"]["remainingTimes"] == 1:
-        print("免费抽奖次数")
+    print(f'转盘info: {result["data"]}\n')
+    if remainingTimes in [0, 1]:
+        print("今日完毕")
         return
-    if result["data"]["remainingTimes"] in [0, 1]:
-        return
+    response = requests.get(
+        'https://m.ximalaya.com/speed/web-earn/inspire/lottery/token', headers=headers, cookies=cookies)
+    print("token", response.text)
+    token = response.json()["data"]["id"]
+    data = {
+        "token": token,
+        "sign": rsa_encrypt(f"token={token}&userId={uid}", pubkey_str),
+    }
+    response = requests.post('https://m.ximalaya.com/speed/web-earn/inspire/lottery/chance',
+                             headers=headers, cookies=cookies, data=json.dumps(data))
+
+    result = response.json()
+    print("chance", result)
     data = {
         "sign": rsa_encrypt(str(result["data"]["chanceId"]), pubkey_str),
     }
-    try:
-        response = requests.post('https://m.ximalaya.com/speed/web-earn/inspire/lottery/action',
-                                 headers=headers, cookies=cookies, data=json.dumps(data))
-    except:
-        print("网络请求异常,为避免GitHub action报错,直接退出")
-        exit()
+    response = requests.post('https://m.ximalaya.com/speed/web-earn/inspire/lottery/action',
+                             headers=headers, cookies=cookies, data=json.dumps(data))
     print(response.text)
-    if remainingTimes > 0:
-        headers = {
-            'Host': 'm.ximalaya.com',
-            'Accept': 'application/json, text/plain, */*',
-            'Connection': 'keep-alive',
-            'User-Agent': UserAgent,
-            'Accept-Language': 'zh-cn',
-            'Referer': 'https://m.ximalaya.com/xmds-node-spa/apps/speed-ad-sweepstake-h5/home',
-            'Accept-Encoding': 'gzip, deflate, br',
-        }
-        try:
-            response = requests.get(
-                'https://m.ximalaya.com/speed/web-earn/inspire/lottery/token', headers=headers, cookies=cookies)
-        except:
-            print("网络请求异常,为避免GitHub action报错,直接退出")
-            exit()
-        print("token", response.text)
-        result = json.loads(response.text)
-        _id = result["data"]["id"]
-        data = {
-            "token": _id,
-            "sign": rsa_encrypt(f"token={_id}&userId={uid}", pubkey_str),
-        }
-        headers = {
-            'User-Agent': UserAgent,
-            'Content-Type': 'application/json;charset=utf-8',
-            'Host': 'm.ximalaya.com',
-            'Origin': 'https://m.ximalaya.com',
-            'Referer': 'https://m.ximalaya.com/xmds-node-spa/apps/speed-ad-sweepstake-h5/home',
-        }
-        try:
-            response = requests.post('https://m.ximalaya.com/speed/web-earn/inspire/lottery/chance',
-                                     headers=headers, cookies=cookies, data=json.dumps(data))
-        except:
-            print("网络请求异常,为避免GitHub action报错,直接退出")
-            exit()
-        result = json.loads(response.text)
-        print("chance", result)
-
-        data = {
-            "sign": rsa_encrypt(str(result["data"]["chanceId"]), pubkey_str),
-        }
-        try:
-            response = requests.post('https://m.ximalaya.com/speed/web-earn/inspire/lottery/action',
-                                     headers=headers, cookies=cookies, data=json.dumps(data))
-        except:
-            print("网络请求异常,为避免GitHub action报错,直接退出")
-            exit()
-        print("action", response.text)
 
 
 def index_baoxiang_award(cookies):
@@ -896,7 +855,7 @@ for i in cookiesList:
     read(cookies, uid)  # 阅读
     bubble(cookies)  # 收金币气泡
     checkin(cookies)  # 自动签到
-    lottery_info(cookies)  # 大转盘4次
+    # lottery_info(cookies)  # 大转盘4次
     answer(cookies)      # 答题赚金币
     cardReportTime(cookies)  # 卡牌
     getOmnipotentCard(cookies)  # 领取万能卡

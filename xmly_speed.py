@@ -7,13 +7,12 @@ from itertools import groupby
 from functools import reduce
 from random import choice
 import hashlib
-from datetime import datetime
-from dateutil import tz
+from datetime import datetime, timedelta
 import os
+
 
 # 喜马拉雅极速版
 # 使用参考 xmly_speed.md
-
 
 ###################################################
 # 对应方案2: 下载到本地,需要此处填写
@@ -68,8 +67,10 @@ if not cookiesList[0]:
     exit()
 mins = int(time.time())
 date_stamp = (mins-57600) % 86400
-print(datetime.now(tz=tz.gettz('Asia/Shanghai')).strftime("%Y-%m-%d %H:%M:%S", ))
-_datatime = datetime.now(tz=tz.gettz('Asia/Shanghai')).strftime("%Y%m%d", )
+utc_dt = datetime.utcnow()  # UTC时间
+bj_dt = utc_dt+timedelta(hours=8)  # 北京时间
+_datatime = bj_dt.strftime("%Y%m%d", )
+print(f"北京时间: {bj_dt}")
 print(_datatime)
 print("今日已过秒数: ", date_stamp)
 print("当前时间戳", mins)

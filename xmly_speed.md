@@ -1,10 +1,10 @@
 # 喜马拉雅极速版  
 
-
 <p align="center">
-  <img src="xmly_speed.jpg" alt="喜马拉雅极速版收益" width='30%' height='30%'/>
+  <img src="xmly_speed.jpg" alt="喜马拉雅极速版收益" width='40%' height='40%'/>
 
-</p>
+
+
 
 开个新坑    
 喜马拉雅**极速版**自动化脚本    
@@ -13,11 +13,11 @@
  [xmly_speed](xmly_speed.py)    
 
 ### 支持功能
-~~1.幸运转盘4次~~  收益过低,且容易报错,故去除
+~~1.幸运转盘4次~~  收益过低,且容易报错,故去除  
 2.答题赚钱(完整)  
 3.听书集卡获得抽卡机会、领取万能卡，但不会自动兑换  
 4.首页、宝箱奖励及翻倍(完整)  
-5.自动刷收听时长(可选项)
+5.自动刷收听时长(可选项)   
 
 
 
@@ -42,16 +42,14 @@
 - 需要刷时长的，Secrets 新增 `XMLY_ACCUMULATE_TIME`，填入`zero_s1`；可能会黑号，请知悉
 
 2、下载到本地运行   
-   需要两个第三方库 `rsa`和 `requests`  
+   需要第三方库`requests`  
 
 ### 如何抓包cookie
 - [手机抓包工具汇总](https://blog.zengrong.net/post/capture-package-on-phone/)
 - [Stream -- iPhone上抓包神器](https://blog.csdn.net/heqiang2015/article/details/84023327)
 
 <p align="center">
-  <img src="抓包.png" alt="抓包" width='30%' height='30%'/>
-
-</p>  
+  <img src="抓包.png" alt="抓包" width='40%' height='40%'/> 
 
 框中信息，不包含开头的`Cookie: `
 
@@ -66,3 +64,8 @@
 - ~~旧脚本会刷收听时长，因此而黑号的，本人概不负责，请知悉（最新代码已经移除）~~ 最新版本修订为可选项
 - ~~暂时去除刷时长功能，但是**保留了收取时长气泡以及翻倍的功能**。因此你可以保持app后台播放，每隔一段时间进入app刷新福利页面即可~~
 - 不要询问 **可以通过简单搜索就可以知道答案** 的问题
+
+### 赞赏码(开发不易,请作者喝杯奶茶)
+
+<p align="center">
+  <img src="thanks.jpg" alt="抓包" width='50%' height='50%'/>

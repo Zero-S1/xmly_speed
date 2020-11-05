@@ -42,7 +42,7 @@ if "XMLY_SPEED_COOKIE" in os.environ:
         print("action 自动刷时长打开")
 
 ###################################################
-UserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 iting/1.0.12 kdtunion_iting/1.0 iting(main)/1.0.12/ios_1"
+UserAgent = "Mozilla/5.0 (Linux; Android 9; MIX 2 Build/PKQ1.190118.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045410 Mobile Safari/537.36 iting(main)/1.8.39/android_1 kdtUnion_iting/1.8.39"
 # 非iOS设备的需要的自行修改,自己抓包 与cookie形式类似
 
 

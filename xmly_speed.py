@@ -19,9 +19,9 @@ cookies2 = ""  # huawei
 cookiesList = [cookies1, ]  # 多账号准备
 
 
-BARK = ''                               # bark服务,自行搜索;secrets可填;形如jfjqxDx3xxxxxxxxSaK的字符串
+PUSH = ''                               # bark服务,自行搜索;secrets可填;形如jfjqxDx3xxxxxxxxSaK的字符串
 devices = ["iPhone7P", ]                # 设备命名,需要与cookiesList一一对应;尽量简短
-bark_time = 19                          # bark通知时间,24小时制,默认19
+push_time = 19                          # bark通知时间,24小时制,默认19
 
 
 XMLY_ACCUMULATE_TIME = 1    # 希望刷时长的,此处置1,默认打开
@@ -42,9 +42,9 @@ if "XMLY_SPEED_COOKIE" in os.environ:
     if "XMLY_ACCUMULATE_TIME" in os.environ and os.environ["XMLY_ACCUMULATE_TIME"] == 'zero_s1':
         XMLY_ACCUMULATE_TIME = 1
         print("action 自动刷时长打开")
-    if "BARK" in os.environ and os.environ["BARK"]:
-        BARK = os.environ["BARK"]
-        print("BARK推送打开")
+    if "PUSH" in os.environ and os.environ["PUSH"]:
+        PUSH = os.environ["PUSH"]
+        print("PUSH推送打开")
 
 
 ###################################################
@@ -882,23 +882,23 @@ def get_uid(cookies):
     return cookies["1&_token"].split("&")[0]
 
 
-def bark(title, content):
+def push(title, content):
     assert len(cookiesList) == len(devices), "❌ cookie数量与devices不等"
-    bark_token = BARK
-    if "BARK" in os.environ:
-        bark_token = os.environ["BARK"]
-    if not bark_token:
-        print("bark服务的bark_token未设置!!\n取消推送")
+    push_token = PUSH
+    if "PUSH" in os.environ:
+        push_token = os.environ["PUSH"]
+    if not push_token:
+        print("push服务的push_token未设置!!\n取消推送")
         return
     response = requests.get(
-        f"""https://api.day.app/{bark_token}/{title}/{content}""")
+        f"""https://api.day.app/{push_token}/{title}/{content}""")
     print(response.text)
 
 
 def run():
     print("喜马拉雅极速版 (https://github.com/Zero-S1/xmly_speed)")
-    if not BARK:
-        print("Bark通知未开启")
+    if not PUSH:
+        print("PUSH通知未开启")
     mins, date_stamp, _datatime, notify_time = get_time()
     table = []
     for k, v in enumerate(cookiesList, 1):
@@ -921,12 +921,12 @@ def run():
 
         print("###"*20)
         print("\n"*4)
-    if BARK and notify_time.split()[0] == str(bark_time) and int(notify_time.split()[1]) > 30:
+    if PUSH and notify_time.split()[0] == str(push_time) and int(notify_time.split()[1]) > 30:
         message = "【设备】     total    today   history  \n"
         for i in zip(devices, table):
             message += f"[{i[0]}]   {i[1][0]:<6.2f}(＋{i[1][1]:<4.2f})  {i[1][2]:<7.2f} \n"
         message += "          By zero_s1, (*^_^*)"
-        bark("【喜马拉雅极速版】通知", message)
+        push("【喜马拉雅极速版】通知", message)
 
 
 if __name__ == "__main__":

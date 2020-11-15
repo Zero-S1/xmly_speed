@@ -1,28 +1,25 @@
 # 喜马拉雅极速版  
 
-<p align="center">
-  <img src="xmly_speed.jpg" alt="喜马拉雅极速版收益" width='40%' height='40%'/>
 
 
-
-
-开个新坑    
 喜马拉雅**极速版**自动化脚本    
 请仔细阅读本说明     
-暂时无法每天签到    
- [xmly_speed](xmly_speed.py)    
+ 
+ [xmly_speed](xmly_speed.py) 
+ cron   */30 * * * *   
 
 ### 支持功能
 ~~1.幸运转盘4次~~  收益过低,且容易报错,故去除  
-2.答题赚钱(完整)  
-3.听书集卡获得抽卡机会、领取万能卡，但不会自动兑换  
+2.答题(完整)  
+3.听书集卡获得抽卡机会、领取万能卡  
 4.首页、宝箱奖励及翻倍(完整)  
 5.自动刷收听时长(可选项)   
+6.每日签到，除了第30天 
 
 
 
 ### 邀请任务
-[注册链接直达](https://service-6q5z0csv-1301215769.bj.apigw.tencentcs.com/release/xmly1) (手机号注册)  
+[注册链接直达](https://m.ximalaya.com/xmds-node-spa/apps/speed-growth-activities/web-earn/landing?parentUserId=58434192&channel=1&srcChannel=weixin&srcPicUrl=https://fdfs.xmcdn.com/group63/M06/26/3C/wKgMcl0Z7-bgXtm3AAAP_-xdbjM707.png&srcText=1) (手机号注册)  
 如果你的手机以及手机号之前没有注册过喜马拉雅的话，可以帮我完成一个邀请任务，感谢。
 
 ### 账号注册以及风控
@@ -40,6 +37,7 @@
 - star一下，立即执行，观察运行情况
 -  **必须**  修改一次文件（比如自己库中的README.md文件）才能定时运行   (！！！！不要再问为什么不能自动运行;不懂不要修改cron )  
 - 需要刷时长的，Secrets 新增 `XMLY_ACCUMULATE_TIME`，填入`zero_s1`；可能会黑号，请知悉
+- 需要bark通知服务的(自行搜索)，Secrets 新增 `BARK`；
 
 2、下载到本地运行   
    需要第三方库`requests`  
@@ -59,11 +57,13 @@
 
 ### Note
 - 部分新手任务接口没有抓到，需要手动完成  
-- **有些游戏 (比如转盘) 第一次需要手动运行**
-- 暂时无法每天签到
+- **有些游戏 第一次需要手动运行**
 - ~~旧脚本会刷收听时长，因此而黑号的，本人概不负责，请知悉（最新代码已经移除）~~ 最新版本修订为可选项
-- ~~暂时去除刷时长功能，但是**保留了收取时长气泡以及翻倍的功能**。因此你可以保持app后台播放，每隔一段时间进入app刷新福利页面即可~~
+- 似乎并没有出现黑号情况，故默认打开
 - 不要询问 **可以通过简单搜索就可以知道答案** 的问题
+
+### 历史star数  
+[![Stargazers over time](https://starchart.cc/Zero-S1/xmly_speed.svg)](https://starchart.cc/Zero-S1/xmly_speed) 
 
 ### 赞赏码(开发不易,请作者喝杯奶茶)
 

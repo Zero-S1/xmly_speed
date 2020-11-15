@@ -25,4 +25,5 @@ jobs:
         env:
             XMLY_SPEED_COOKIE: ${{ secrets.XMLY_SPEED_COOKIE }}
             XMLY_ACCUMULATE_TIME: ${{ secrets.XMLY_ACCUMULATE_TIME }}
+            PUSH: ${{ secrets.PUSH }}
     

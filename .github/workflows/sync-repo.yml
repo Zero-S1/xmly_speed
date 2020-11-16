@@ -1,11 +1,11 @@
-name: sync-xmly_speed
+name: 同步上游仓库
 on:
   schedule:
     - cron: '0 */2 * * *'
   watch:
     types: started
   repository_dispatch:
-    types: sync-xmly_speed
+    types: sync-repo
 jobs:
   repo-sync:
     env:

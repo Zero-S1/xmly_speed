@@ -854,7 +854,7 @@ def main():
         account_info = account(cookies)
         bark_content = bark_content + account_info + '\n'
     if bj_dt.hour % 18 == 0 and bj_dt.hour / 18 == 1 and bj_dt.minute <= 30:
-        requests.get('https://api.day.app/%s/喜马拉雅极速版/%s' % (bark_machine_code, bark_content[:-1]))
+       # requests.get('https://api.day.app/%s/喜马拉雅极速版/%s' % (bark_machine_code, bark_content[:-1]))
 
 if __name__ == '__main__':
     main()

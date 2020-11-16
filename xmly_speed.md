@@ -55,6 +55,18 @@
 -  **必须**  修改一次文件（比如自己库中的README.md文件）才能定时运行   (！！！！不要再问为什么不能自动运行;不懂不要修改cron )  
 - **可选**  通知服务, bark服务与server酱可选, 分别在`Repo-Setting-Secrets` 新增`BARK` 或者 `SCKEY`
 
+
+2、脚本同步（不fork，防止关联上游仓库，被一锅端）
+
+- 新建一个仓库
+- 申请Personal access tokens  参考 ttps://www.jianshu.com/p/bb82b3ad1d11
+- **必须** 在 Secrets 中新增 'PAT' 填入上面申请的Personal access tokens
+- 在自己新建的仓库中创建一个workflow，内容如此：https://raw.githubusercontent.com/Zero-S1/xmly_speed/master/.github/workflows/sync-repo.yml
+- 手动运行该workflow，可以看到上游仓库被同步到你的自建仓库
+- **必须**  Secrets 新增 `XMLY_SPEED_COOKIE`，填入cookie信息 ，多账号换行
+- star一下，立即执行，观察运行情况
+
+
 2、下载到本地运行   
    - 需要第三方库 `requests`  
    - 填写方案2  

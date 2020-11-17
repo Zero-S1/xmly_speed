@@ -82,5 +82,5 @@
 ### 查看action运行情况
 点击 Actions -> Workflows
 
-### 历史star数  
+## 历史star数  
 [![Stargazers over time](https://starchart.cc/Zero-S1/xmly_speed.svg)](https://starchart.cc/Zero-S1/xmly_speed) 

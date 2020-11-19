@@ -132,12 +132,11 @@ def read(cookies):
         print("网络请求异常,为避免GitHub action报错,直接跳过")
         return
     result = response.json()
-    # print(result)
     if result["status"] == -2:
         # print("无法阅读,尝试从安卓端手动开启")
         return
     # print(result["completeList"])
-    if result["isComplete"]:
+    if result["isComplete"] or result["count_finish"]==9:
         print("今日完成阅读")
         return
     headers = {
@@ -191,7 +190,7 @@ def ans_receive(cookies, paperId, lastTopicId, receiveType):
     except:
         print("网络请求异常,为避免GitHub action报错,直接跳过")
         return 0
-    return 1
+    return response.json()
 
 
 def ans_restore(cookies):
@@ -214,7 +213,7 @@ def ans_restore(cookies):
     except:
         print("网络请求异常,为避免GitHub action报错,直接跳过")
         return 0
-    result=response.json()
+    result = response.json()
     if "errorCode" in result:
         return 0
     return 1
@@ -261,7 +260,7 @@ def ans_start(cookies):
     except:
         print("网络请求异常,为避免GitHub action报错,直接跳过")
         return 0, 0, 0
-    print(response.text)
+    # print(response.text)
     result = response.json()
 
     try:
@@ -273,7 +272,6 @@ def ans_start(cookies):
     except:
         print("❌1 重新抓包 2 手动答题")
         return 0, 0, 0
-
 
 
 def _str2key(s):
@@ -522,7 +520,7 @@ def bubble(cookies):
         'Referer': 'https://m.ximalaya.com/xmds-node-spa/apps/speed-growth-open-components/bubble',
     }
     uid = get_uid(cookies)
-    data = {"listenTime": "41246", "signature": "2b1cc9ee020db596d28831cff8874d9c",
+    data = {"listenTime": "41246", "signature": "2b1cc9e8831cff8874d9c",
             "currentTimeMillis": "1596695606145", "uid": uid, "expire": False}
     try:
         response = requests.post('https://m.ximalaya.com/speed/web-earn/listen/bubbles',
@@ -531,12 +529,18 @@ def bubble(cookies):
         print("网络请求异常,为避免GitHub action报错,直接跳过")
         return
     result = response.json()
+    # print(result)
+
     if not result["data"]["effectiveBubbles"]:
         print("暂无有效气泡")
         return
     for i in result["data"]["effectiveBubbles"]:
         print(i["id"])
-        receive(cookies, i["id"])
+
+        tmp = receive(cookies, i["id"])
+        if "errorCode" in tmp:
+            print("❌ 进入app相关页面手动领取 反复几次即可")
+            return
         time.sleep(1)
         ad_score(cookies, 7, i["id"])
     for i in result["data"]["expiredBubbles"]:
@@ -560,6 +564,7 @@ def receive(cookies, taskId):
         print("网络请求异常,为避免GitHub action报错,直接跳过")
         return
     print("receive: ", response.text)
+    return response.json()
 
 
 def getOmnipotentCard(cookies, mins, date_stamp, _datatime):
@@ -667,7 +672,8 @@ def answer(cookies):
         if paperId == 0:
             return
         tmp = ans_receive(cookies, paperId, lastTopicId, 1)
-        if tmp == 0:
+        if "errorCode" in tmp :
+            print("❌ 进入app相关页面手动领取 反复几次即可")
             return
         time.sleep(1)
         tmp = ans_receive(cookies, paperId, lastTopicId, 2)
@@ -683,7 +689,9 @@ def answer(cookies):
             paperId, _, lastTopicId = ans_start(cookies)
             if paperId == 0:
                 return
-            ans_receive(cookies, paperId, lastTopicId, 1)
+            if "errorCode" in tmp :
+                print("❌ 进入app相关页面手动领取 反复几次即可")
+                return
             time.sleep(1)
             ans_receive(cookies, paperId, lastTopicId, 2)
             time.sleep(1)
@@ -965,6 +973,7 @@ def run():
             listenData(cookies, date_stamp)
         read(cookies)  # 阅读
         bubble(cookies)  # 收金币气泡
+        # continue
         continuousDays = checkin(cookies, _datatime)  # 自动签到
         # lottery_info(cookies)  # 大转盘4次
         answer(cookies)      # 答题赚金币

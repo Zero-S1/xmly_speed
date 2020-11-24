@@ -23,7 +23,7 @@ cookiesList = [cookies1, ]   # 多账号准备
 BARK = ''                   # bark服务,自行搜索; secrets可填;形如jfjqxDx3xxxxxxxxSaK的字符串
 SCKEY = ''                  # Server酱的SCKEY; secrets可填
 TG_BOT_TOKEN = ''           # telegram bot token 自行申请
-TG_USER_ID = ''           # telegram 用户ID
+TG_USER_ID = ''             # telegram 用户ID
 
 ###################################################
 # 对应方案1:  GitHub action自动运行,此处无需填写;
@@ -142,7 +142,7 @@ def read(cookies):
         # print("无法阅读,尝试从安卓端手动开启")
         return
     # print(result["completeList"])
-    if result["isComplete"] or result["count_finish"]==9:
+    if result["isComplete"] or result["count_finish"] == 9:
         print("今日完成阅读")
         return
     headers = {
@@ -678,11 +678,13 @@ def answer(cookies):
         if paperId == 0:
             return
         tmp = ans_receive(cookies, paperId, lastTopicId, 1)
-        if "errorCode" in tmp :
+        print(tmp)
+        if "errorCode" in tmp:
             print("❌ 每天手动收听一段时间，暂无其他方法")
             return
         time.sleep(1)
         tmp = ans_receive(cookies, paperId, lastTopicId, 2)
+        print(tmp)
         if tmp == 0:
             return
         time.sleep(1)
@@ -696,11 +698,13 @@ def answer(cookies):
             if paperId == 0:
                 return
             tmp = ans_receive(cookies, paperId, lastTopicId, 1)
-            if "errorCode" in tmp :
+            print(tmp)
+            if "errorCode" in tmp:
                 print("❌ 每天手动收听一段时间，暂无其他方法")
                 return
             time.sleep(1)
             tmp = ans_receive(cookies, paperId, lastTopicId, 2)
+            print(tmp)
             if tmp == 0:
                 return
             time.sleep(1)
@@ -728,12 +732,12 @@ def saveListenTime(cookies, date_stamp):
         'uid': uid
     }
     try:
-        requests.post('http://mobile.ximalaya.com/pizza-category/ball/saveListenTime',
-                      headers=headers, cookies=cookies, data=data)
+        response = requests.post('http://mobile.ximalaya.com/pizza-category/ball/saveListenTime',
+                                 headers=headers, cookies=cookies, data=data)
     except:
         print("网络请求异常,为避免GitHub action报错,直接跳过")
         return
-    # print(response.text)
+    print(response.text)
 
 
 def listenData(cookies, date_stamp):
@@ -756,12 +760,12 @@ def listenData(cookies, date_stamp):
         'uid': uid
     }
     try:
-        requests.post('http://m.ximalaya.com/speed/web-earn/listen/client/data',
-                      headers=headers, cookies=cookies, data=json.dumps(data))
+        response = requests.post('http://m.ximalaya.com/speed/web-earn/listen/client/data',
+                                 headers=headers, cookies=cookies, data=json.dumps(data))
     except:
         print("网络请求异常,为避免GitHub action报错,直接跳过")
         return
-    # print(response.text)
+    print(response.text)
 
 
 def card_exchangeCoin(cookies, themeId, cardIdList, _datatime):
@@ -981,9 +985,12 @@ def telegram_bot(title, content):
         print("Telegram推送的tg_bot_token或者tg_user_id未设置!!\n取消推送")
         return
     print("Telegram 推送开始")
-    send_data = {"chat_id":tg_user_id, "text":title+'\n\n'+content, "disable_web_page_preview":"true"}
-    response = requests.post(url='https://api.telegram.org/bot%s/sendMessage' % (tg_bot_token),data=send_data)
+    send_data = {"chat_id": tg_user_id, "text": title +
+                 '\n\n'+content, "disable_web_page_preview": "true"}
+    response = requests.post(
+        url='https://api.telegram.org/bot%s/sendMessage' % (tg_bot_token), data=send_data)
     print(response.text)
+
 
 def run():
     print(f"喜马拉雅极速版 (https://github.com/Zero-S1/xmly_speed/blob/master/xmly_speed.md ) ,欢迎打赏¯\(°_o)/¯")
@@ -1019,7 +1026,7 @@ def run():
         print("###"*20)
         print("\n"*4)
     if _notify_time.split()[0] == str(notify_time) and int(_notify_time.split()[1]) > 30:
-    # if 1:
+        # if 1:
         message = ''
         for i in table:
             message += f"[{i[0].replace(' ',''):<9}]: {i[1]:<6.2f} (＋{i[2]:<4.2f}) {i[3]:<7.2f} {i[4]}\\30\n"

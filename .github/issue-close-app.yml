@@ -1,0 +1,22 @@
+# Comment that will be sent if an issue is judged to be closed
+comment: "由于issue并未按照模板填写,即将被bot自动关闭。"
+issueConfigs:
+# There can be several configs for different kind of issues.
+- content:
+# Example 1: bug report
+  - "关于你要提交的问题"
+  - "是否搜索了issue"
+  - "是否仔细阅读了教程"
+  - "你使用的哪种运行方案"
+  - "详细叙述"
+  - "具体问题"
+  - "详细日志"
+- content:
+# Example 2: feature request
+  - "Motivation / Use Case"
+  - "Expected Behavior"
+  - "Other Information"
+# The issue is judged to be legal if it includes all keywords from any of these two configs.
+# Or it will be closed by the app.
+exception:
+  - "Zero-S1"

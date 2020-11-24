@@ -1,3 +1,12 @@
+---
+name: Bug report
+about: Create a report to help us improve
+title: "[BUG]"
+labels: ''
+assignees: ''
+
+---
+
 <!-- ⚠️先在 issues 页面搜索你的问题，包括已关闭的issue，很可能已被解决。 -->
 
 <!-- 这是隐藏的信息 -->
@@ -30,4 +39,3 @@ A：
 
 ### (2) 详细日志(如果是GitHub action运行，请附上具体网址)
 A：
-

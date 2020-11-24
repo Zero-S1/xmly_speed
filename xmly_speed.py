@@ -7,6 +7,7 @@ from itertools import groupby
 import hashlib
 from datetime import datetime, timedelta
 import os
+import re
 
 
 # 喜马拉雅极速版
@@ -74,7 +75,11 @@ def str2dict(str_cookie):
             dict_cookie[j[0].strip()] = j[1].strip()
 
         assert dict_cookie["1&_token"].split("&")[0]
-        assert dict_cookie['device_model']
+        regex = r"&\d\.\d\.\d+"
+        appid = "&1.1.9"
+        dict_cookie["1&_device"] = re.sub(
+            regex, appid, dict_cookie["1&_device"], 0, re.MULTILINE)
+        print(dict_cookie["1&_device"])
 
     except (IndexError, KeyError):
         print("cookie填写出错 ❌,仔细查看说明")

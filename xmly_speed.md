@@ -53,13 +53,13 @@
 - **必须**  Secrets 新增 `XMLY_SPEED_COOKIE`，填入cookie信息 ，多账号换行
 - star一下，立即执行，观察运行情况
 -  **必须**  修改一次文件（比如自己库中的README.md文件）才能定时运行   (！！！！不要再问为什么不能自动运行;不懂不要修改cron )  
-- **可选**  通知服务, bark服务与server酱可选, 分别在 Secrets  新增 `BARK` 或者 `SCKEY`, 并填写对应的参数;每天默认19:30通知一次
+-  **可选**  通知服务, bark服务、server酱或者tg通知可选, 分别在 Secrets  新增 `BARK` 或者 `SCKEY` 或者(`TG_BOT_TOKEN`与`TG_USER_ID`), 并填写对应的参数;每天默认19:30通知一次
 
 2、下载到本地运行   
    - 需要第三方库 `requests`  
    - 填写方案2  
    - **必须**  本地填写cookies  
-   - **可选**  `BARK`、 `SCKEY` 通知服务
+   - **可选**  `BARK`、 `SCKEY`、(`TG_BOT_TOKEN`与`TG_USER_ID`) 通知服务
 
 ### 如何抓包cookie
 - [手机抓包工具汇总](https://blog.zengrong.net/post/capture-package-on-phone/)

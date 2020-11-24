@@ -27,4 +27,6 @@ jobs:
             # XMLY_ACCUMULATE_TIME: ${{ secrets.XMLY_ACCUMULATE_TIME }} #非私密信息，去掉
             BARK: ${{ secrets.BARK }}     # bark服务
             SCKEY: ${{ secrets.SCKEY }}   # server酱服务
+            TG_BOT_TOKEN: ${{secrets.TG_BOT_TOKEN}} # tg通知token
+            TG_USER_ID:  ${{secrets.TG_USER_ID}}    # tg通知id
     

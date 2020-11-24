@@ -22,6 +22,8 @@ cookiesList = [cookies1, ]   # 多账号准备
 # 通知服务
 BARK = ''                   # bark服务,自行搜索; secrets可填;形如jfjqxDx3xxxxxxxxSaK的字符串
 SCKEY = ''                  # Server酱的SCKEY; secrets可填
+TG_BOT_TOKEN = ''           # telegram bot token 自行申请
+TG_USER_ID = ''           # telegram 用户ID
 
 ###################################################
 # 对应方案1:  GitHub action自动运行,此处无需填写;
@@ -43,6 +45,10 @@ if "XMLY_SPEED_COOKIE" in os.environ:
     if "SCKEY" in os.environ and os.environ["SCKEY"]:
         BARK = os.environ["SCKEY"]
         print("serverJ 推送打开")
+    if "TG_BOT_TOKEN" in os.environ and os.environ["TG_BOT_TOKEN"] and "TG_USER_ID" in os.environ and os.environ["TG_USER_ID"]:
+        TG_BOT_TOKEN = os.environ["TG_BOT_TOKEN"]
+        TG_USER_ID = os.environ["TG_USER_ID"]
+        print("Telegram 推送打开")
 
 
 ###################################################
@@ -539,7 +545,7 @@ def bubble(cookies):
 
         tmp = receive(cookies, i["id"])
         if "errorCode" in tmp:
-            print("❌ 进入app相关页面手动领取 反复几次即可")
+            print("❌ 每天手动收听一段时间，暂无其他方法")
             return
         time.sleep(1)
         ad_score(cookies, 7, i["id"])
@@ -673,7 +679,7 @@ def answer(cookies):
             return
         tmp = ans_receive(cookies, paperId, lastTopicId, 1)
         if "errorCode" in tmp :
-            print("❌ 进入app相关页面手动领取 反复几次即可")
+            print("❌ 每天手动收听一段时间，暂无其他方法")
             return
         time.sleep(1)
         tmp = ans_receive(cookies, paperId, lastTopicId, 2)
@@ -689,11 +695,14 @@ def answer(cookies):
             paperId, _, lastTopicId = ans_start(cookies)
             if paperId == 0:
                 return
+            tmp = ans_receive(cookies, paperId, lastTopicId, 1)
             if "errorCode" in tmp :
-                print("❌ 进入app相关页面手动领取 反复几次即可")
+                print("❌ 每天手动收听一段时间，暂无其他方法")
                 return
             time.sleep(1)
-            ans_receive(cookies, paperId, lastTopicId, 2)
+            tmp = ans_receive(cookies, paperId, lastTopicId, 2)
+            if tmp == 0:
+                return
             time.sleep(1)
 
 
@@ -961,6 +970,21 @@ def bark(title, content):
     print(response.text)
 
 
+def telegram_bot(title, content):
+    print("\n")
+    tg_bot_token = TG_BOT_TOKEN
+    tg_user_id = TG_USER_ID
+    if "TG_BOT_TOKEN" in os.environ and "TG_USER_ID" in os.environ:
+        tg_bot_token = os.environ["TG_BOT_TOKEN"]
+        tg_user_id = os.environ["TG_USER_ID"]
+    if not tg_bot_token or not tg_user_id:
+        print("Telegram推送的tg_bot_token或者tg_user_id未设置!!\n取消推送")
+        return
+    print("Telegram 推送开始")
+    send_data = {"chat_id":tg_user_id, "text":title+'\n\n'+content, "disable_web_page_preview":"true"}
+    response = requests.post(url='https://api.telegram.org/bot%s/sendMessage' % (tg_bot_token),data=send_data)
+    print(response.text)
+
 def run():
     print(f"喜马拉雅极速版 (https://github.com/Zero-S1/xmly_speed/blob/master/xmly_speed.md ) ,欢迎打赏¯\(°_o)/¯")
     mins, date_stamp, _datatime, _notify_time = get_time()
@@ -995,7 +1019,7 @@ def run():
         print("###"*20)
         print("\n"*4)
     if _notify_time.split()[0] == str(notify_time) and int(_notify_time.split()[1]) > 30:
-        # if 1:
+    # if 1:
         message = ''
         for i in table:
             message += f"[{i[0].replace(' ',''):<9}]: {i[1]:<6.2f} (＋{i[2]:<4.2f}) {i[3]:<7.2f} {i[4]}\\30\n"
@@ -1005,6 +1029,7 @@ def run():
 
         bark("⏰ 喜马拉雅极速版", message)
         serverJ("⏰ 喜马拉雅极速版", message)
+        telegram_bot("⏰ 喜马拉雅极速版", message)
 
 
 if __name__ == "__main__":

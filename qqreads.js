@@ -89,12 +89,11 @@ const wktimess=1200//周奖励领取标准，默认1200分钟
 
 
 const qqreadurlKey = 'qqreadurl'+jbid
-const qqreadurlVal = `https://mqqapi.reader.qq.com/mqq/user/init`
+const qqreadurlVal = "https://mqqapi.reader.qq.com/mqq/user/init"
 
 
 const qqreadheaderKey = 'qqreadhd'+jbid
-const qqreadheaderVal= {"Accept":"*/*","Content-Type":"application/json","ywsession":"jxz5vr6dkzq3cmx4hxs9718odgrebyt6","Cookie":"ywguid=345784078;ywkey=ywX5h68aSFUa;platform=ios;channel=mqqmina;mpVersion=0.28.0","mpversion":"0.28.0","Connection":"keep-alive","Host":"mqqapi.reader.qq.com","User-Agent":"QQ/8.4.17.638 CFNetwork/1206 Darwin/20.1.0","Referer":"https://appservice.qq.com/1110657249/0.28.0/page-frame.html","Accept-Encoding":"gzip, deflate, br","Accept-Language":"zh-cn"}
-
+const qqreadheaderVal= JASON.stringify({"Accept":"*/*","Content-Type":"application/json","ywsession":"jxz5vr6dkzq3cmx4hxs9718odgrebyt6","Cookie":"ywguid=345784078;ywkey=ywX5h68aSFUa;platform=ios;channel=mqqmina;mpVersion=0.28.0","mpversion":"0.28.0","Connection":"keep-alive","Host":"mqqapi.reader.qq.com","User-Agent":"QQ/8.4.17.638 CFNetwork/1206 Darwin/20.1.0","Referer":"https://appservice.qq.com/1110657249/0.28.0/page-frame.html","Accept-Encoding":"gzip, deflate, br","Accept-Language":"zh-cn"})
 const qqreadbodyKey = 'qqreadbody'+jbid
 const qqreadbodyVal = 'undefined'
 
@@ -102,11 +101,11 @@ const qqreadbodyVal = 'undefined'
 
 
 const qqreadtimeurlKey = 'qqreadtimeurl'+jbid
-const qqreadtimeurlVal = `https://mqqapi.reader.qq.com/mqq/addReadTimeWithBid?scene=2016&refer=pages%2Fbook-detail%2Findex&bid=33586297&readTime=4675&read_type=0&conttype=1&read_status=0&chapter_info=%5B%7B%221%22%3A%7B%22readTime%22%3A4675%2C%22pay_status%22%3A0%7D%7D%5D&sp=-1`
+const qqreadtimeurlVal = "https://mqqapi.reader.qq.com/mqq/addReadTimeWithBid?scene=2016&refer=pages%2Fbook-detail%2Findex&bid=33586297&readTime=4675&read_type=0&conttype=1&read_status=0&chapter_info=%5B%7B%221%22%3A%7B%22readTime%22%3A4675%2C%22pay_status%22%3A0%7D%7D%5D&sp=-1"
 
 
 const qqreadtimeheaderKey = 'qqreadtimehd'+jbid
-const qqreadtimeheaderVal= {"Accept":"*/*","Content-Type":"application/json","ywsession":"jxz5vr6dkzq3cmx4hxs9718odgrebyt6","Cookie":"ywguid=345784078;ywkey=ywX5h68aSFUa;platform=ios;channel=mqqmina;mpVersion=0.28.0;qq_ver=8.4.17;os_ver=iOS 14.2.1;mpos_ver=1.21.0;platform=ios;openid=0642A7AD95A8CECD774F05DC34091E37","mpversion":"0.28.0","Connection":"keep-alive","Host":"mqqapi.reader.qq.com","User-Agent":"QQ/8.4.17.638 CFNetwork/1206 Darwin/20.1.0","Referer":"https://appservice.qq.com/1110657249/0.28.0/page-frame.html","Accept-Encoding":"gzip, deflate, br","Accept-Language":"zh-cn"}
+const qqreadtimeheaderVal= JASON.stringify({"Accept":"*/*","Content-Type":"application/json","ywsession":"jxz5vr6dkzq3cmx4hxs9718odgrebyt6","Cookie":"ywguid=345784078;ywkey=ywX5h68aSFUa;platform=ios;channel=mqqmina;mpVersion=0.28.0;qq_ver=8.4.17;os_ver=iOS 14.2.1;mpos_ver=1.21.0;platform=ios;openid=0642A7AD95A8CECD774F05DC34091E37","mpversion":"0.28.0","Connection":"keep-alive","Host":"mqqapi.reader.qq.com","User-Agent":"QQ/8.4.17.638 CFNetwork/1206 Darwin/20.1.0","Referer":"https://appservice.qq.com/1110657249/0.28.0/page-frame.html","Accept-Encoding":"gzip, deflate, br","Accept-Language":"zh-cn"})
 
 
 

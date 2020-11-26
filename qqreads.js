@@ -96,7 +96,7 @@ const qqreadheaderKey = 'qqreadhd'+jbid
 const qqreadheaderVal= {"Accept":"*/*","Content-Type":"application/json","ywsession":"jxz5vr6dkzq3cmx4hxs9718odgrebyt6","Cookie":"ywguid=345784078;ywkey=ywX5h68aSFUa;platform=ios;channel=mqqmina;mpVersion=0.28.0","mpversion":"0.28.0","Connection":"keep-alive","Host":"mqqapi.reader.qq.com","User-Agent":"QQ/8.4.17.638 CFNetwork/1206 Darwin/20.1.0","Referer":"https://appservice.qq.com/1110657249/0.28.0/page-frame.html","Accept-Encoding":"gzip, deflate, br","Accept-Language":"zh-cn"}
 
 const qqreadbodyKey = 'qqreadbody'+jbid
-const qqreadbodyVal = undefined
+const qqreadbodyVal = 'undefined'
 
 
 

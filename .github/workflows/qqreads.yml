@@ -35,7 +35,7 @@ jobs:
       - name: npm install
         run: |
           npm install
-      - name: '运行 【白条】'
+      - name: '运行 【qq阅读】'
         run: |
           node qqreads.js
         

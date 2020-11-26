@@ -118,7 +118,7 @@ var tz=''
 
 
 
-/*/CK运行
+//CK运行
 
 let isGetCookie = typeof $request !== 'undefined'
 if (isGetCookie) {
@@ -180,7 +180,7 @@ const qqreadtimeheaderVal = JSON.stringify($request.headers)
 }
 
 
-*/
+
 
 function all()
 

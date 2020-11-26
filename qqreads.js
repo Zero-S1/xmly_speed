@@ -91,7 +91,7 @@ const wktimess=1200//周奖励领取标准，默认1200分钟
 
 
 const qqreadurlKey = 'qqreadurl'+jbid
-const qqreadurlVal = https://mqqapi.reader.qq.com/mqq/user/init
+const qqreadurlVal = `https://mqqapi.reader.qq.com/mqq/user/init`
 
 
 const qqreadheaderKey = 'qqreadhd'+jbid
@@ -104,7 +104,7 @@ const qqreadbodyVal = undefined
 
 
 const qqreadtimeurlKey = 'qqreadtimeurl'+jbid
-const qqreadtimeurlVal = https://mqqapi.reader.qq.com/mqq/addReadTimeWithBid?scene=2016&refer=pages%2Fbook-detail%2Findex&bid=33586297&readTime=4675&read_type=0&conttype=1&read_status=0&chapter_info=%5B%7B%221%22%3A%7B%22readTime%22%3A4675%2C%22pay_status%22%3A0%7D%7D%5D&sp=-1
+const qqreadtimeurlVal = `https://mqqapi.reader.qq.com/mqq/addReadTimeWithBid?scene=2016&refer=pages%2Fbook-detail%2Findex&bid=33586297&readTime=4675&read_type=0&conttype=1&read_status=0&chapter_info=%5B%7B%221%22%3A%7B%22readTime%22%3A4675%2C%22pay_status%22%3A0%7D%7D%5D&sp=-1`
 
 
 const qqreadtimeheaderKey = 'qqreadtimehd'+jbid

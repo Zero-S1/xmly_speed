@@ -38,5 +38,3 @@ jobs:
       - name: '运行 【qq阅读】'
         run: |
           node qqreads.js
-        env:
-            XMLY_SPEED_COOKIE: ${{ secrets.XMLY_SPEED_COOKIE }}  #必须

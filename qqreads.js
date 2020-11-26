@@ -1,5 +1,6 @@
 
 /*ziye
+
 本人github地址     https://github.com/ziye12/JavaScript 
 转载请备注个名字，谢谢
 
@@ -37,18 +38,15 @@ https:\/\/mqqapi\.reader\.qq\.com\/mqq\/addReadTimeWithBid? url script-request-h
 
 
 
-
 ############## loon
 
 
 //企鹅读书获取cookie
-http-request https:\/\/mqqapi\.reader\.qq\.com\/mqq\/user\/init script-path=https://raw.githubusercontent.com/ziye12/JavaScript/master/qqread.js, requires-header=true
+http-request https:\/\/mqqapi\.reader\.qq\.com\/mqq\/user\/init script-path=https://raw.githubusercontent.com/ziye12/JavaScript/master/qqread.js,requires-header=true, tag=企鹅读书获取cookie 
+
 
 //企鹅读书获取时长cookie
-http-request https:\/\/mqqapi\.reader\.qq\.com\/mqq\/addReadTimeWithBid? script-path=https://raw.githubusercontent.com/ziye12/JavaScript/master/qqread.js, requires-header=true
-
-
-
+http-request https:\/\/mqqapi\.reader\.qq\.com\/mqq\/addReadTimeWithBid? script-path=https://raw.githubusercontent.com/ziye12/JavaScript/master/qqread.js, requires-header=true, tag=企鹅读书获取时长cookie
 
 
 
@@ -74,7 +72,7 @@ http-request https:\/\/mqqapi\.reader\.qq\.com\/mqq\/addReadTimeWithBid? script-
 const jsname='企鹅读书'
 const $ = Env(jsname)
 
-const logs = 1;   //0为关闭日志，1为开启
+const logs = 0;   //0为关闭日志，1为开启
 const notifyInterval=1
 //0为关闭通知，1为所有通知，2为宝箱领取成功通知，3为宝箱每18次通知一次
 
@@ -98,7 +96,7 @@ const qqreadheaderKey = 'qqreadhd'+jbid
 const qqreadheaderVal= {"Accept":"*/*","Content-Type":"application/json","ywsession":"jxz5vr6dkzq3cmx4hxs9718odgrebyt6","Cookie":"ywguid=345784078;ywkey=ywX5h68aSFUa;platform=ios;channel=mqqmina;mpVersion=0.28.0","mpversion":"0.28.0","Connection":"keep-alive","Host":"mqqapi.reader.qq.com","User-Agent":"QQ/8.4.17.638 CFNetwork/1206 Darwin/20.1.0","Referer":"https://appservice.qq.com/1110657249/0.28.0/page-frame.html","Accept-Encoding":"gzip, deflate, br","Accept-Language":"zh-cn"}
 
 const qqreadbodyKey = 'qqreadbody'+jbid
-const qqreadbodyVal = 'undefined'
+const qqreadbodyVal = undefined
 
 
 
@@ -205,7 +203,7 @@ qqreadsign();//金币签到
 else if (i==4&&task.data.treasureBox.doneFlag==0)
 qqreadbox();//宝箱
 
-else if (i==5&&task.data.taskList[2].doneFlag==1)
+else if (i==5&&task.data.taskList[2].doneFlag==0)
 qqreadssr1();//阅读金币1
 
 else if (i==6)
@@ -217,7 +215,7 @@ qqreadtake();//阅豆签到
 else if (i==8&&task.data.taskList[1].doneFlag==0)
 qqreaddayread();//阅读任务
 
-else if (i==9&&task.data.taskList[2].doneFlag==1)
+else if (i==9&&task.data.taskList[2].doneFlag==0)
 qqreadssr2();//阅读金币2
 
 else if (i==10&&task.data.taskList[3].doneFlag==0)
@@ -229,7 +227,7 @@ qqreadsign2();//签到翻倍
 else if (i==12&&task.data.treasureBox.videoDoneFlag==0)
 qqreadbox2();//宝箱翻倍
 
-else if (i==13&&task.data.taskList[2].doneFlag==1)
+else if (i==13&&task.data.taskList[2].doneFlag==0)
 qqreadssr3();//阅读金币3
 
 else if (i==14)

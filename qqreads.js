@@ -9,6 +9,7 @@
 11.25 修复阅读时长问题，阅读金币问题，请重新获取时长cookie
 11.26 随机金币只有一次，故去除，调整修复阅读金币问题，增加时长上传限制
 11.26 增加领取周时长奖励
+11.26 增加结束命令
 
 
 ⚠️cookie获取方法：
@@ -93,9 +94,10 @@ const qqreadurlVal = "https://mqqapi.reader.qq.com/mqq/user/init"
 
 
 const qqreadheaderKey = 'qqreadhd'+jbid
-const qqreadheaderVal= JASON.stringify({"Accept":"*/*","Content-Type":"application/json","ywsession":"jxz5vr6dkzq3cmx4hxs9718odgrebyt6","Cookie":"ywguid=345784078;ywkey=ywX5h68aSFUa;platform=ios;channel=mqqmina;mpVersion=0.28.0","mpversion":"0.28.0","Connection":"keep-alive","Host":"mqqapi.reader.qq.com","User-Agent":"QQ/8.4.17.638 CFNetwork/1206 Darwin/20.1.0","Referer":"https://appservice.qq.com/1110657249/0.28.0/page-frame.html","Accept-Encoding":"gzip, deflate, br","Accept-Language":"zh-cn"})
+const qqreadheaderVal= JSON.stringify({"Accept":"*/*","Content-Type":"application/json","ywsession":"jxz5vr6dkzq3cmx4hxs9718odgrebyt6","Cookie":"ywguid=345784078;ywkey=ywX5h68aSFUa;platform=ios;channel=mqqmina;mpVersion=0.28.0","mpversion":"0.28.0","Connection":"keep-alive","Host":"mqqapi.reader.qq.com","User-Agent":"QQ/8.4.17.638 CFNetwork/1206 Darwin/20.1.0","Referer":"https://appservice.qq.com/1110657249/0.28.0/page-frame.html","Accept-Encoding":"gzip, deflate, br","Accept-Language":"zh-cn"})
+
 const qqreadbodyKey = 'qqreadbody'+jbid
-const qqreadbodyVal = 'undefined'
+const qqreadbodyVal = $.getdata(qqreadbodyKey)
 
 
 
@@ -105,7 +107,7 @@ const qqreadtimeurlVal = "https://mqqapi.reader.qq.com/mqq/addReadTimeWithBid?sc
 
 
 const qqreadtimeheaderKey = 'qqreadtimehd'+jbid
-const qqreadtimeheaderVal= JASON.stringify({"Accept":"*/*","Content-Type":"application/json","ywsession":"jxz5vr6dkzq3cmx4hxs9718odgrebyt6","Cookie":"ywguid=345784078;ywkey=ywX5h68aSFUa;platform=ios;channel=mqqmina;mpVersion=0.28.0;qq_ver=8.4.17;os_ver=iOS 14.2.1;mpos_ver=1.21.0;platform=ios;openid=0642A7AD95A8CECD774F05DC34091E37","mpversion":"0.28.0","Connection":"keep-alive","Host":"mqqapi.reader.qq.com","User-Agent":"QQ/8.4.17.638 CFNetwork/1206 Darwin/20.1.0","Referer":"https://appservice.qq.com/1110657249/0.28.0/page-frame.html","Accept-Encoding":"gzip, deflate, br","Accept-Language":"zh-cn"})
+const qqreadtimeheaderVal= JSON.stringify({"Accept":"*/*","Content-Type":"application/json","ywsession":"jxz5vr6dkzq3cmx4hxs9718odgrebyt6","Cookie":"ywguid=345784078;ywkey=ywX5h68aSFUa;platform=ios;channel=mqqmina;mpVersion=0.28.0;qq_ver=8.4.17;os_ver=iOS 14.2.1;mpos_ver=1.21.0;platform=ios;openid=0642A7AD95A8CECD774F05DC34091E37","mpversion":"0.28.0","Connection":"keep-alive","Host":"mqqapi.reader.qq.com","User-Agent":"QQ/8.4.17.638 CFNetwork/1206 Darwin/20.1.0","Referer":"https://appservice.qq.com/1110657249/0.28.0/page-frame.html","Accept-Encoding":"gzip, deflate, br","Accept-Language":"zh-cn"})
 
 
 
@@ -236,13 +238,11 @@ qqreadwktime();//周时长查询
 else if (i==15)
 qqreadpick();//领周时长奖励
 
-
-
-
-
+else if (i==16)
+showmsg();//通知
 
 else if (i==17)
-showmsg();//通知
+$.done();//结束
 
  }
 

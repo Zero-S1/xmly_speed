@@ -1,8 +1,11 @@
 
-/*ziye
+/*X修改自ziye ，github地址     https://github.com/ziye12/JavaScript 
 
-本人github地址     https://github.com/ziye12/JavaScript 
-转载请备注个名字，谢谢
+修改时间2020-11-27 
+cookies直接写死
+用此修改yml注意需要加依赖npm install tough-cookie
+真啥也不懂 不行自己琢磨
+作者 twogen
 
 11.25 增加 阅读时长上传，阅读金币，阅读随机金币
 11.25 修复翻倍宝箱不同时领取的问题.增加阅读金币判定

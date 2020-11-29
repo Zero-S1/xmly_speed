@@ -14,8 +14,8 @@
 3.听书集卡获得抽卡机会、领取万能卡  
 4.首页、宝箱奖励及翻倍(完整)  
 5.自动刷收听时长(可选项)   
-6.每日签到，除了第30天 
-7.每日通知 
+6.每日签到，除了第30天
+7.每日通知
 
 
 
@@ -26,7 +26,7 @@
 ### 账号注册以及风控
 1、使用**不同的手机设备**进行注册、刚注册的账号**不要退出**和切换账号，以免账号被封禁   
 2、~~刚注册的账号**不要立刻跑脚本**，以免账号被封禁，无法提现~~ 好像也没啥影响，完成前三天的几个新手任务就行  
-3、同一手机最好不要切换账号，以免cookie过期 (待测) 
+3、同一手机最好不要切换账号，以免cookie过期 (待测)
 
 
 
@@ -46,7 +46,7 @@
 
 ### 运行方案
 
-1、GitHub action自动运行，账号信息读取自 `Setting -> Secrets` 仓库位置 
+1、GitHub action自动运行，账号信息读取自 `Setting -> Secrets` 仓库位置
 
 - cookie 信息抓包自**手机app(喜马拉雅极速版)**，域名为 `m.ximalaya.com`的可以
 - fork 本项目
@@ -66,7 +66,7 @@
 - [Stream -- iPhone上抓包神器](https://blog.csdn.net/heqiang2015/article/details/84023327)
 
 <p align="center">
-  <img src="抓包.png" alt="抓包" width='40%' height='40%'/> 
+  <img src="抓包.png" alt="抓包" width='40%' height='40%'/>
 
 框中信息，不包含开头的`Cookie: `
 
@@ -83,4 +83,4 @@
 点击 Actions -> Workflows
 
 ### 历史star数  
-[![Stargazers over time](https://starchart.cc/Zero-S1/xmly_speed.svg)](https://starchart.cc/Zero-S1/xmly_speed) 
+[![Stargazers over time](https://starchart.cc/Zero-S1/xmly_speed.svg)](https://starchart.cc/Zero-S1/xmly_speed)

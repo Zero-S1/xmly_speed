@@ -20,6 +20,7 @@ jobs:
       - name: 'Install requirements'
         run: pip install -r ./requirements.txt 
         
+        
       - name: 'run 喜马拉雅极速版' 
         run: python3 xmly_speed.py 
         env:

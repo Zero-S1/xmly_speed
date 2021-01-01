@@ -58,6 +58,7 @@
 - star一下，立即执行，观察运行情况
 -  **必须**  修改一次文件（比如自己库中的README.md文件）才能定时运行   (！！！！不要再问为什么不能自动运行;不懂不要修改cron )  
 -  **可选**  通知服务, bark服务、server酱或者tg通知可选, 分别在 Secrets  新增 `BARK` 或者 `SCKEY` 或者(`TG_BOT_TOKEN`与`TG_USER_ID`), 并填写对应的参数;每天默认19:30通知一次
+-  **安卓注意**  如果抓的是安卓app的cookie，你需要修改一下`xmly_speed.py`文件的UserAgent项参数，还有将cookie内的版本号修改为1.8.39.3。（第一处在`1&_token`前面，还有一处在`appVersion`。）
 
 2、下载到本地运行   
    - 需要第三方库 `requests`  

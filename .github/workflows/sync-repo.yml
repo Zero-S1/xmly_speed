@@ -1,5 +1,6 @@
 name: 同步上游仓库
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 */2 * * *'
   watch:
